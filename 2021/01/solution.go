@@ -9,10 +9,10 @@ import (
 )
 
 func main() {
-	first()
+	fmt.Println(first())
 }
 
-func first() {
+func first() int {
 	// Counter for increased depth measurements
 	counter := 0
 
@@ -32,7 +32,7 @@ func first() {
 		previous = current
 	}
 
-	fmt.Println(counter)
+	return counter
 }
 
 func readInput(filename string) []string {
