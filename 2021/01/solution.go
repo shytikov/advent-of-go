@@ -9,42 +9,43 @@ import (
 func main() {
 	input := utils.ReadIntFromLines("./input.txt")
 
+	first := func() int {
+		// Resetting counter
+		var counter int
+
+		// Previous depth value – intentionally set to big number
+		previous := math.MaxInt16
+		for _, current := range input {
+			previous, counter = decide(current, previous, counter)
+		}
+
+		return counter
+	}
+
+	second := func() int {
+		// Resetting counter
+		var counter int
+
+		// Previous depth value – intentionally set to big number
+		previous := math.MaxInt16
+		for i := 0; i < len(input)-2; i++ {
+			previous, counter = decide(utils.SumInt(input[i:i+3]), previous, counter)
+		}
+
+		return counter
+	}
+
 	if input != nil {
-		fmt.Println(first(input))
-		fmt.Println(second(input))
+		fmt.Println(first())
+		fmt.Println(second())
 	}
 }
 
-func first(input []int) int {
-	// Counter for increased depth samples count
-	counter := 0
-
-	// Previous depth value – intentionally set to big number
-	previous := math.MaxInt16
-	for _, current := range input {
-		if current-previous > 0 {
-			counter++
-		}
-		previous = current
+// FUnction will decide which value should be used for counter
+func decide(current, previous, counter int) (int, int) {
+	if current-previous > 0 {
+		counter++
 	}
 
-	return counter
-}
-
-func second(input []int) int {
-	// Counter for increased depth samples count
-	counter := 0
-
-	// Previous depth value – intentionally set to big number
-	previous := math.MaxInt16
-	for i := 0; i < len(input)-2; i++ {
-		current := utils.SumInt(input[i : i+3])
-
-		if current-previous > 0 {
-			counter++
-		}
-		previous = current
-	}
-
-	return counter
+	return current, counter
 }
