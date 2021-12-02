@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func ReadIntFromLines(filename string) []int {
+func ReadNumbers(filename string) []int {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil
