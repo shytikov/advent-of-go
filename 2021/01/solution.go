@@ -19,7 +19,7 @@ func main() {
 		fmt.Println(<-firstResult)
 		fmt.Println(<-secondResult)
 	} else {
-		fmt.Errorf("failure to read input data")
+		fmt.Errorf("failure when reading input data")
 	}
 }
 
