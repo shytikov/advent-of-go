@@ -24,35 +24,30 @@ func main() {
 }
 
 func solveFirstPuzzle(input []int, result chan int) {
-	var counter int
-
+	counter := 0
 	previous := math.MaxInt16
 	for _, current := range input {
-		previous, counter = decide(current, previous, counter)
+		if current-previous > 0 {
+			counter++
+		}
+		previous = current
 	}
 
 	result <- counter
 }
 
 func solveSecondPuzzle(input []int, result chan int) {
-	var counter int
-
+	counter := 0
 	previous := math.MaxInt16
 	// It does not matter would we use len(input) or len(input)-2 as missing elements will be replaced with 0
 	// and calculation will be still correct, but in this case we will run two unnecessary loop cycles
 	for i := 0; i < len(input)-2; i++ {
-		previous, counter = decide(utils.SumNumbers(input[i:i+3]), previous, counter)
+		current := utils.SumNumbers(input[i : i+3])
+		if current-previous > 0 {
+			counter++
+		}
+		previous = current
 	}
 
 	result <- counter
-}
-
-// Function will decide which value should be used for counter
-// In addition it will help to swap current and previous values in one statement
-func decide(current, previous, counter int) (int, int) {
-	if current-previous > 0 {
-		counter++
-	}
-
-	return current, counter
 }
