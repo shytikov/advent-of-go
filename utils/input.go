@@ -31,33 +31,32 @@ func ReadNumbers(filename string) []int {
 	return result
 }
 
-type Direction struct {
-	Side     string
-	Distance int
+type Instruction struct {
+	Direction string
+	Distance  int
 }
 
-// ReadDirections will parse file provided in format:
+// ReadInstructions will parse file provided in format:
 //
 // stringKey1 intValue1\n
 // stringKey2 intValue2\n
-func ReadDirections(filename string) []Direction {
+func ReadInstructions(filename string) []Instruction {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil
 	}
 
-	result := make([]Direction, 0)
+	result := make([]Instruction, 0)
 
 	for _, line := range strings.Split(string(content), "\n") {
 		chunks := strings.Split(line, " ")
-
 		distance, err := strconv.Atoi(chunks[1])
 
 		if err != nil {
 			continue
 		}
 
-		result = append(result, Direction{chunks[0], distance})
+		result = append(result, Instruction{chunks[0], distance})
 	}
 
 	if len(result) == 0 {

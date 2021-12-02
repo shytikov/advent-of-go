@@ -10,10 +10,6 @@ func main() {
 	input := utils.ReadNumbers("./input.txt")
 
 	if input != nil {
-		// In this approach we will be reading input slice from two concurrent goroutines which is not ideal,
-		// but as soon as we are not modifying it, no issues should occur 🤞
-
-		// Channels for respective puzzles' solution
 		firstResult := make(chan int)
 		secondResult := make(chan int)
 
