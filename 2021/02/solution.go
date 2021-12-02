@@ -23,27 +23,39 @@ func main() {
 }
 
 func solveFirstPuzzle(input []utils.Instruction, result chan int) {
-	var path int
-	var depth int
+	stretch := 0
+	depth := 0
 
 	for _, instruction := range input {
 		switch instruction.Direction {
 		case "forward":
-			path += instruction.Distance
+			stretch += instruction.Distance
 		case "down":
 			depth += instruction.Distance
 		case "up":
-			if depth - instruction.Distance < 0 {
-				depth = 0
-			} else {
-				depth -= instruction.Distance
-			}
+			depth -= instruction.Distance
 		}
 	}
 
-	result <- path*depth
+	result <- stretch * depth
 }
 
 func solveSecondPuzzle(input []utils.Instruction, result chan int) {
-	result <- 2
+	stretch := 0
+	depth := 0
+	aim := 0
+
+	for _, instruction := range input {
+		switch instruction.Direction {
+		case "forward":
+			stretch += instruction.Distance
+			depth += aim * instruction.Distance
+		case "down":
+			aim += instruction.Distance
+		case "up":
+			aim -= instruction.Distance
+		}
+	}
+
+	result <- stretch * depth
 }
