@@ -14,40 +14,41 @@ func main() {
 		// but as soon as we are not modifying it, no issues should occur 🤞
 
 		// Channels for respective puzzles' solution
-		first := make(chan int)
-		second := make(chan int)
+		firstResult := make(chan int)
+		secondResult := make(chan int)
 
-		// Goroutine for first puzzle solution
-		go (func() {
-			var counter int
+		go solveFirstPuzzle(input, firstResult)
+		go solveSecondPuzzle(input, secondResult)
 
-			previous := math.MaxInt16
-			for _, current := range input {
-				previous, counter = decide(current, previous, counter)
-			}
-
-			first <- counter
-		})()
-
-		// Goroutine for second puzzle solution
-		go (func() {
-			var counter int
-
-			previous := math.MaxInt16
-			// It does not matter would we use len(input) or len(input)-2 as missing elements will be replaced with 0
-			// and calculation will be still correct, but in this case we will run two unnecessary loop cycles
-			for i := 0; i < len(input)-2; i++ {
-				previous, counter = decide(utils.SumNumbers(input[i:i+3]), previous, counter)
-			}
-
-			second <- counter
-		})()
-
-		fmt.Println(<- first)
-		fmt.Println(<- second)
+		fmt.Println(<-firstResult)
+		fmt.Println(<-secondResult)
 	} else {
-		fmt.Errorf("failure to read input data" )
+		fmt.Errorf("failure to read input data")
 	}
+}
+
+func solveFirstPuzzle(input []int, result chan int) {
+	var counter int
+
+	previous := math.MaxInt16
+	for _, current := range input {
+		previous, counter = decide(current, previous, counter)
+	}
+
+	result <- counter
+}
+
+func solveSecondPuzzle(input []int, result chan int) {
+	var counter int
+
+	previous := math.MaxInt16
+	// It does not matter would we use len(input) or len(input)-2 as missing elements will be replaced with 0
+	// and calculation will be still correct, but in this case we will run two unnecessary loop cycles
+	for i := 0; i < len(input)-2; i++ {
+		previous, counter = decide(utils.SumNumbers(input[i:i+3]), previous, counter)
+	}
+
+	result <- counter
 }
 
 // Function will decide which value should be used for counter
