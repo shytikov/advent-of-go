@@ -2,23 +2,23 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"github.com/shytikov/advent-of-go/utils"
 	"math"
 	"strconv"
-	"strings"
 )
 
 func main() {
-	fmt.Println(first())
+	input := utils.ReadLines("./input.txt")
+	fmt.Println(first(input))
 }
 
-func first() int {
-	// Counter for increased depth measurements
+func first(input []string) int {
+	// Counter for increased depth input
 	counter := 0
 
 	// Previous depth value – intentionally set to big number
 	previous := math.MaxInt16
-	for _, measurement := range readInput("input.txt") {
+	for _, measurement := range input {
 		current, err := strconv.Atoi(measurement)
 
 		if err != nil {
@@ -33,13 +33,4 @@ func first() int {
 	}
 
 	return counter
-}
-
-func readInput(filename string) []string {
-	content, err := ioutil.ReadFile(filename)
-	if err != nil {
-		panic(fmt.Errorf("cannot find input file"))
-	}
-
-	return strings.Split(string(content), "\n")
 }
