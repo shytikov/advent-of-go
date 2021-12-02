@@ -1,16 +1,28 @@
 package utils
 
 import (
-	"fmt"
 	"io/ioutil"
+	"strconv"
 	"strings"
 )
 
-func ReadLines(filename string) []string {
+func ReadIntFromLines(filename string) []int {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
-		panic(fmt.Errorf("cannot find input file"))
+		return nil
 	}
 
-	return strings.Split(string(content), "\n")
+	result := make([]int, 0)
+
+	for _, line := range strings.Split(string(content), "\n") {
+		number, err := strconv.Atoi(line)
+
+		if err != nil {
+			continue
+		}
+
+		result = append(result, number)
+	}
+
+	return result
 }
