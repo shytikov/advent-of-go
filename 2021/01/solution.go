@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	input := utils.ReadNumbers("./input.txt")
+	input := utils.ReadNumbersFromLines("./input.txt")
 
 	if input != nil {
 		firstResult := make(chan int)

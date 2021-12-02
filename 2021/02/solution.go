@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	input := utils.ReadInstructions("./input.txt")
+	input := utils.ReadInstructionsFromLInes("./input.txt")
 
 	if input != nil {
 		firstResult := make(chan int)

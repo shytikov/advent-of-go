@@ -6,7 +6,31 @@ import (
 	"strings"
 )
 
-func ReadNumbers(filename string) []int {
+func ReadNumbersFromString(filename string) []int {
+	content, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return nil
+	}
+
+	result := make([]int, 0)
+	for _, char := range []rune(string(content)) {
+		number, err := strconv.Atoi(string([]rune{char}))
+
+		if err != nil {
+			continue
+		}
+
+		result = append(result, number)
+	}
+
+	if len(result) == 0 {
+		return nil
+	}
+
+	return result
+}
+
+func ReadNumbersFromLines(filename string) []int {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil
@@ -36,11 +60,11 @@ type Instruction struct {
 	Distance  int
 }
 
-// ReadInstructions will parse file provided in format:
+// ReadInstructionsFromLInes will parse file provided in format:
 //
 // stringKey1 intValue1\n
 // stringKey2 intValue2\n
-func ReadInstructions(filename string) []Instruction {
+func ReadInstructionsFromLInes(filename string) []Instruction {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil
