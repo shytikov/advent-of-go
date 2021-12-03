@@ -6,54 +6,54 @@ import (
 )
 
 func main() {
-	input := utils.ReadInstructionsFromLInes("./input.txt")
+	input := utils.ReadCommandsFromLInes("./input.txt")
 
 	if input != nil {
-		firstResult := make(chan int)
-		secondResult := make(chan int)
+		resultA := make(chan int)
+		resultB := make(chan int)
 
-		go solveFirstPuzzle(input, firstResult)
-		go solveSecondPuzzle(input, secondResult)
+		go solvePuzzleA(input, resultA)
+		go solvePuzzleB(input, resultB)
 
-		fmt.Println(<-firstResult)
-		fmt.Println(<-secondResult)
+		fmt.Println(<-resultA)
+		fmt.Println(<-resultB)
 	} else {
 		fmt.Errorf("failure when reading input data")
 	}
 }
 
-func solveFirstPuzzle(input []utils.Instruction, result chan int) {
+func solvePuzzleA(input []utils.Command, result chan int) {
 	stretch := 0
 	depth := 0
 
 	for _, instruction := range input {
-		switch instruction.Direction {
+		switch instruction.Name {
 		case "forward":
-			stretch += instruction.Distance
+			stretch += instruction.Argument
 		case "down":
-			depth += instruction.Distance
+			depth += instruction.Argument
 		case "up":
-			depth -= instruction.Distance
+			depth -= instruction.Argument
 		}
 	}
 
 	result <- stretch * depth
 }
 
-func solveSecondPuzzle(input []utils.Instruction, result chan int) {
+func solvePuzzleB(input []utils.Command, result chan int) {
 	stretch := 0
 	depth := 0
 	aim := 0
 
 	for _, instruction := range input {
-		switch instruction.Direction {
+		switch instruction.Name {
 		case "forward":
-			stretch += instruction.Distance
-			depth += aim * instruction.Distance
+			stretch += instruction.Argument
+			depth += aim * instruction.Argument
 		case "down":
-			aim += instruction.Distance
+			aim += instruction.Argument
 		case "up":
-			aim -= instruction.Distance
+			aim -= instruction.Argument
 		}
 	}
 

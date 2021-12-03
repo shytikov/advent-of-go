@@ -55,22 +55,23 @@ func ReadNumbersFromLines(filename string) []int {
 	return result
 }
 
-type Instruction struct {
-	Direction string
-	Distance  int
+// Command is type representing a pair of the name and argument
+type Command struct {
+	Name     string
+	Argument int
 }
 
-// ReadInstructionsFromLInes will parse file provided in format:
+// ReadCommandsFromLInes will parse file provided in format:
 //
 // stringKey1 intValue1\n
 // stringKey2 intValue2\n
-func ReadInstructionsFromLInes(filename string) []Instruction {
+func ReadCommandsFromLInes(filename string) []Command {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil
 	}
 
-	result := make([]Instruction, 0)
+	result := make([]Command, 0)
 
 	for _, line := range strings.Split(string(content), "\n") {
 		chunks := strings.Split(line, " ")
@@ -80,7 +81,7 @@ func ReadInstructionsFromLInes(filename string) []Instruction {
 			continue
 		}
 
-		result = append(result, Instruction{chunks[0], distance})
+		result = append(result, Command{chunks[0], distance})
 	}
 
 	if len(result) == 0 {

@@ -10,20 +10,20 @@ func main() {
 	input := utils.ReadNumbersFromLines("./input.txt")
 
 	if input != nil {
-		firstResult := make(chan int)
-		secondResult := make(chan int)
+		resultA := make(chan int)
+		resultB := make(chan int)
 
-		go solveFirstPuzzle(input, firstResult)
-		go solveSecondPuzzle(input, secondResult)
+		go solvePuzzleA(input, resultA)
+		go solvePuzzleB(input, resultB)
 
-		fmt.Println(<-firstResult)
-		fmt.Println(<-secondResult)
+		fmt.Println(<-resultA)
+		fmt.Println(<-resultB)
 	} else {
 		fmt.Errorf("failure when reading input data")
 	}
 }
 
-func solveFirstPuzzle(input []int, result chan int) {
+func solvePuzzleA(input []int, result chan int) {
 	counter := 0
 	previous := math.MaxInt16
 	for _, current := range input {
@@ -36,7 +36,7 @@ func solveFirstPuzzle(input []int, result chan int) {
 	result <- counter
 }
 
-func solveSecondPuzzle(input []int, result chan int) {
+func solvePuzzleB(input []int, result chan int) {
 	counter := 0
 	previous := math.MaxInt16
 	// It does not matter would we use len(input) or len(input)-2 as missing elements will be replaced with 0
