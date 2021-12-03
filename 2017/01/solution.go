@@ -6,14 +6,14 @@ import (
 )
 
 func main() {
-	input := utils.ReadNumbersFromString("./input.txt")
+	input := utils.ReadIntSlicesFromLines("./input.txt")
 
 	if input != nil {
 		resultA := make(chan int)
 		resultB := make(chan int)
 
-		go solvePuzzleA(input, resultA)
-		go solvePuzzleB(input, resultB)
+		go solvePuzzleA(input[0], resultA)
+		go solvePuzzleB(input[0], resultB)
 
 		fmt.Println(<-resultA)
 		fmt.Println(<-resultB)

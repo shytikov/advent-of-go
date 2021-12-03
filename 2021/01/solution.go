@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	input := utils.ReadNumbersFromLines("./input.txt")
+	input := utils.ReadIntsFromLines("./input.txt")
 
 	if input != nil {
 		resultA := make(chan int)
@@ -42,7 +42,7 @@ func solvePuzzleB(input []int, result chan int) {
 	// It does not matter would we use len(input) or len(input)-2 as missing elements will be replaced with 0
 	// and calculation will be still correct, but in this case we will run two unnecessary loop cycles
 	for i := 0; i < len(input)-2; i++ {
-		current := utils.SumNumbers(input[i : i+3])
+		current := utils.SumInts(input[i : i+3])
 		if current-previous > 0 {
 			counter++
 		}

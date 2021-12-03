@@ -6,15 +6,14 @@ import (
 	"strings"
 )
 
-func ReadNumbersFromString(filename string) []int {
+func ReadIntsFromLines(filename string) (result []int) {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil
 	}
 
-	result := make([]int, 0)
-	for _, char := range []rune(string(content)) {
-		number, err := strconv.Atoi(string([]rune{char}))
+	for _, line := range strings.Split(string(content), "\n") {
+		number, err := strconv.Atoi(line)
 
 		if err != nil {
 			continue
@@ -30,22 +29,25 @@ func ReadNumbersFromString(filename string) []int {
 	return result
 }
 
-func ReadNumbersFromLines(filename string) []int {
+func ReadIntSlicesFromLines(filename string) (result [][]int) {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil
 	}
 
-	result := make([]int, 0)
-
 	for _, line := range strings.Split(string(content), "\n") {
-		number, err := strconv.Atoi(line)
+		serie := make([]int, 0)
+		for _, char := range []rune(line) {
+			number, err := strconv.Atoi(string([]rune{char}))
 
-		if err != nil {
-			continue
+			if err != nil {
+				continue
+			}
+
+			serie = append(serie, number)
 		}
 
-		result = append(result, number)
+		result = append(result, serie)
 	}
 
 	if len(result) == 0 {
