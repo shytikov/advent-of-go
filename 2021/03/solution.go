@@ -48,7 +48,7 @@ func solvePuzzleA(input [][]int, result chan int) {
 		}
 	}
 
-	result <- utils.BinaryIntsToInt(γ) * utils.BinaryIntsToInt(ε)
+	result <- utils.LooseBinaryToInt(γ) * utils.LooseBinaryToInt(ε)
 }
 
 func solvePuzzleB(input [][]int, result chan int) {
