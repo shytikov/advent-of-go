@@ -54,73 +54,46 @@ func solvePuzzleA(input [][]int, result chan int) {
 }
 
 func solvePuzzleB(input [][]int, result chan int) {
-	o2 := make(chan int)
-	co2 := make(chan int)
+	o2Reading := make(chan []int)
+	co2Reading := make(chan []int)
 
-	go func(input [][]int, output chan int) {
-		notFiltered := input
+	O2 := func(count0, count1 int) bool { return count0 > count1 && count0 != count1 }
+	CO2 := func(count0, count1 int) bool { return count0 < count1 || count0 == count1 }
 
-		for i := 0; i < len(input[0]); i++ {
-			filteredBy0 := make([][]int, 0)
-			filteredBy1 := make([][]int, 0)
+	go calculateMetric(O2, input, o2Reading)
+	go calculateMetric(CO2, input, co2Reading)
 
-			count0 := 0
-			count1 := 0
+	result <- utils.LooseBinaryToInt(<-o2Reading) * utils.LooseBinaryToInt(<-co2Reading)
+}
 
-			for _, number := range notFiltered {
-				if number[i] == 0 {
-					count0++
-					filteredBy0 = append(filteredBy0, number)
-				} else {
-					count1++
-					filteredBy1 = append(filteredBy1, number)
-				}
-			}
+func calculateMetric(detector func(count0 int, count1 int) bool, input [][]int, output chan []int) {
+	notFiltered := input
+	for i := 0; i < len(input[0]); i++ {
+		filteredBy0 := make([][]int, 0)
+		filteredBy1 := make([][]int, 0)
 
-			if count0 < count1 || count0 == count1 {
-				notFiltered = filteredBy1
+		count0 := 0
+		count1 := 0
+
+		for _, number := range notFiltered {
+			if number[i] == 0 {
+				count0++
+				filteredBy0 = append(filteredBy0, number)
 			} else {
-				notFiltered = filteredBy0
-			}
-
-			if len(notFiltered) == 1 {
-				output <- utils.LooseBinaryToInt(notFiltered[0])
-				break
+				count1++
+				filteredBy1 = append(filteredBy1, number)
 			}
 		}
-	}(input, o2)
 
-	go func(input [][]int, output chan int) {
-		notFiltered := input
-		for i := 0; i < len(input[0]); i++ {
-			filteredBy0 := make([][]int, 0)
-			filteredBy1 := make([][]int, 0)
-
-			count0 := 0
-			count1 := 0
-
-			for _, number := range notFiltered {
-				if number[i] == 0 {
-					count0++
-					filteredBy0 = append(filteredBy0, number)
-				} else {
-					count1++
-					filteredBy1 = append(filteredBy1, number)
-				}
-			}
-
-			if count0 < count1 || count0 == count1 {
-				notFiltered = filteredBy0
-			} else {
-				notFiltered = filteredBy1
-			}
-
-			if len(notFiltered) == 1 {
-				output <- utils.LooseBinaryToInt(notFiltered[0])
-				break
-			}
+		if detector(count0, count1) {
+			notFiltered = filteredBy0
+		} else {
+			notFiltered = filteredBy1
 		}
-	}(input, co2)
 
-	result <- (<-o2) * (<-co2)
+		if len(notFiltered) == 1 {
+			output <- notFiltered[0]
+			break
+		}
+	}
 }
