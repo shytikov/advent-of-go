@@ -54,68 +54,73 @@ func solvePuzzleA(input [][]int, result chan int) {
 }
 
 func solvePuzzleB(input [][]int, result chan int) {
-	notFiltered := input
-	o2Level := 0
-	co2Level := 0
+	o2 := make(chan int)
+	co2 := make(chan int)
 
-	for i := 0; i < len(input[0]); i++ {
-		filteredBy0 := make([][]int, 0)
-		filteredBy1 := make([][]int, 0)
+	go func(input [][]int, output chan int) {
+		notFiltered := input
 
-		count0 := 0
-		count1 := 0
+		for i := 0; i < len(input[0]); i++ {
+			filteredBy0 := make([][]int, 0)
+			filteredBy1 := make([][]int, 0)
 
-		for _, number := range notFiltered {
-			if number[i] == 0 {
-				count0++
-				filteredBy0 = append(filteredBy0, number)
+			count0 := 0
+			count1 := 0
+
+			for _, number := range notFiltered {
+				if number[i] == 0 {
+					count0++
+					filteredBy0 = append(filteredBy0, number)
+				} else {
+					count1++
+					filteredBy1 = append(filteredBy1, number)
+				}
+			}
+
+			if count0 < count1 || count0 == count1 {
+				notFiltered = filteredBy1
 			} else {
-				count1++
-				filteredBy1 = append(filteredBy1, number)
+				notFiltered = filteredBy0
+			}
+
+			if len(notFiltered) == 1 {
+				output <- utils.LooseBinaryToInt(notFiltered[0])
+				break
 			}
 		}
+	}(input, o2)
 
-		if count0 < count1 || count0 == count1 {
-			notFiltered = filteredBy1
-		} else {
-			notFiltered = filteredBy0
-		}
+	go func(input [][]int, output chan int) {
+		notFiltered := input
+		for i := 0; i < len(input[0]); i++ {
+			filteredBy0 := make([][]int, 0)
+			filteredBy1 := make([][]int, 0)
 
-		if len(notFiltered) == 1 {
-			o2Level = utils.LooseBinaryToInt(notFiltered[0])
-			break
-		}
-	}
+			count0 := 0
+			count1 := 0
 
-	notFiltered = input
-	for i := 0; i < len(input[0]); i++ {
-		filteredBy0 := make([][]int, 0)
-		filteredBy1 := make([][]int, 0)
+			for _, number := range notFiltered {
+				if number[i] == 0 {
+					count0++
+					filteredBy0 = append(filteredBy0, number)
+				} else {
+					count1++
+					filteredBy1 = append(filteredBy1, number)
+				}
+			}
 
-		count0 := 0
-		count1 := 0
-
-		for _, number := range notFiltered {
-			if number[i] == 0 {
-				count0++
-				filteredBy0 = append(filteredBy0, number)
+			if count0 < count1 || count0 == count1 {
+				notFiltered = filteredBy0
 			} else {
-				count1++
-				filteredBy1 = append(filteredBy1, number)
+				notFiltered = filteredBy1
+			}
+
+			if len(notFiltered) == 1 {
+				output <- utils.LooseBinaryToInt(notFiltered[0])
+				break
 			}
 		}
+	}(input, co2)
 
-		if count0 < count1 || count0 == count1 {
-			notFiltered = filteredBy0
-		} else {
-			notFiltered = filteredBy1
-		}
-
-		if len(notFiltered) == 1 {
-			co2Level = utils.LooseBinaryToInt(notFiltered[0])
-			break
-		}
-	}
-
-	result <- o2Level*co2Level
+	result <- (<-o2) * (<-co2)
 }
