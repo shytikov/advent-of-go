@@ -54,16 +54,18 @@ func solvePuzzleA(input [][]int, result chan int) {
 }
 
 func solvePuzzleB(input [][]int, result chan int) {
-	o2Reading := make(chan []int)
-	co2Reading := make(chan []int)
+	gauge := map[string]chan []int{
+		"O2":  make(chan []int),
+		"CO2": make(chan []int),
+	}
 
 	O2 := func(count0, count1 int) bool { return count0 > count1 && count0 != count1 }
 	CO2 := func(count0, count1 int) bool { return count0 < count1 || count0 == count1 }
 
-	go calculateMetric(O2, input, o2Reading)
-	go calculateMetric(CO2, input, co2Reading)
+	go calculateMetric(O2, input, gauge["O2"])
+	go calculateMetric(CO2, input, gauge["CO2"])
 
-	result <- utils.LooseBinaryToInt(<-o2Reading) * utils.LooseBinaryToInt(<-co2Reading)
+	result <- utils.LooseBinaryToInt(<-gauge["O2"]) * utils.LooseBinaryToInt(<-gauge["CO2"])
 }
 
 func calculateMetric(detector func(count0 int, count1 int) bool, input [][]int, output chan []int) {
