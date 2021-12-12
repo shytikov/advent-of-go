@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io/ioutil"
 	"strings"
 	"testing"
 )
@@ -38,5 +39,25 @@ func TestParseBoard(t *testing.T) {
 				return
 			}
 		}
+	}
+}
+
+func TestGetBoards(t *testing.T) {
+	// Arrange
+	content, _ := ioutil.ReadFile("./input.txt")
+	lines := strings.Split(string(content), "\n")
+	expected := 100
+	result := make(chan []Board, 1)
+
+	// Act
+	go getBoardsFrom(lines, result)
+
+	boards := <-result
+	total := len(boards)
+
+	// Assert
+	if total != expected {
+		t.Errorf("Total count was incorrect, got: %d, want: %d.", total, expected)
+		return
 	}
 }
