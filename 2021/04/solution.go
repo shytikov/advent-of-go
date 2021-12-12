@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/shytikov/advent-of-go/utils"
 	"io/ioutil"
 	"strconv"
 	"strings"
+
+	"github.com/shytikov/advent-of-go/utils"
 )
 
 const dimension = 5
@@ -23,7 +24,7 @@ func main() {
 		fmt.Println(<-resultA)
 		fmt.Println(<-resultB)
 	} else {
-		fmt.Errorf("failure when reading input data")
+		panic("failure when reading input data")
 	}
 }
 
@@ -78,8 +79,6 @@ func readBingo(filename string) Data {
 		Boards: <-boards,
 	}
 
-	//fmt.Println(result)
-
 	return result
 }
 
@@ -122,7 +121,7 @@ func getBoardsFrom(lines []string, result chan []Board) {
 		for k := start; k < end; k++ {
 			// Skipping separator line
 			if lines[k] != "" {
-				row := make([]int, 5)
+				row := make([]int, dimension)
 				// There is a padding in input data, it should be trimmed
 				line := strings.Trim(lines[k], " ")
 				line = strings.Replace(line, "  ", " ", 10)

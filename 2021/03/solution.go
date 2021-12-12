@@ -18,7 +18,7 @@ func main() {
 		fmt.Println(<-resultA)
 		fmt.Println(<-resultB)
 	} else {
-		fmt.Errorf("failure when reading input data")
+		panic("failure when reading input data")
 	}
 }
 
