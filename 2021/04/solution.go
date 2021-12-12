@@ -27,17 +27,19 @@ func main() {
 }
 
 func solvePuzzleA(input Data, result chan int) {
-	// for _, number := range input.Draw {
-	// 	for _, board := range input.Boards {
-	// 		board.draw(number)
+	boards := input.Boards
 
-	// 		if board.hasWon() {
-	// 			result <- board.getScore(number)
+	for _, number := range input.Draw {
+		for i, board := range boards {
+			boards[i] = board.draw(number)
 
-	// 			return
-	// 		}
-	// 	}
-	// }
+			if boards[i].hasWon() {
+				result <- boards[i].getScore(number)
+
+				return
+			}
+		}
+	}
 
 	result <- 0
 }
@@ -137,32 +139,31 @@ func parseBoard(lines []string) (result Board) {
 	return
 }
 
-// func (b Board) draw(number int) {
-// 	for i := 0; i < dimension; i++ {
-// 		for j := 0; j < dimension; j++ {
-// 			if b.Numbers[i][j] == number {
-// 				b.Sum[i][j] = 1
-// 				b.Rows[i] += 1
-// 			}
-// 		}
-// 	}
-// }
+func (b Board) draw(number int) (result Board) {
+	result = b
 
-// func (b Board) hasWon() (result bool) {
-// 	for i := 0; i < dimension; i++ {
-// 		if utils.SumInts(b.Sum[i]) == dimension {
-// 			result = true
-// 			break
-// 		}
-// 	}
+	for i := 0; i < dimension; i++ {
+		for j := 0; j < dimension; j++ {
+			if result.Numbers[i][j] == number {
+				result.Rows[i] += 1
+				result.Sum = result.Sum - number
+			}
+		}
+	}
 
-// 	return
-// }
+	return
+}
 
-// func (b Board) getScore(number int) (result int) {
-// 	for i := 0; i < dimension; i++ {
-// 		result += utils.SumInts(b.Rows[i])
-// 	}
+func (b Board) hasWon() bool {
+	for i := 0; i < dimension; i++ {
+		if b.Rows[i] == dimension {
+			return true
+		}
+	}
 
-// 	return result * number
-// }
+	return false
+}
+
+func (b Board) getScore(number int) int {
+	return b.Sum * number
+}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"strings"
 	"testing"
@@ -60,4 +61,23 @@ func TestGetBoards(t *testing.T) {
 		t.Errorf("Total count was incorrect, got: %d, want: %d.", total, expected)
 		return
 	}
+}
+
+func TestDrawNumber(t *testing.T) {
+	// Arrange
+	rawString := `
+	17 45 62 28 73
+	39 12  0 52  5
+	87 48 50 85 44
+	66 57 78 94  3
+	91 37 69 16  1`
+
+	lines := strings.Split(rawString, "\n")
+	board := parseBoard(lines)
+
+	// Act
+	board = board.draw(17)
+
+	// Assert
+	fmt.Println(board)
 }
