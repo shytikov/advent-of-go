@@ -5,8 +5,6 @@ import (
 	"io/ioutil"
 	"strconv"
 	"strings"
-
-	"github.com/shytikov/advent-of-go/utils"
 )
 
 const dimension = 5
@@ -29,17 +27,17 @@ func main() {
 }
 
 func solvePuzzleA(input Data, result chan int) {
-	for _, number := range input.Draw {
-		for _, board := range input.Boards {
-			board.draw(number)
+	// for _, number := range input.Draw {
+	// 	for _, board := range input.Boards {
+	// 		board.draw(number)
 
-			if board.hasWon() {
-				result <- board.getScore(number)
+	// 		if board.hasWon() {
+	// 			result <- board.getScore(number)
 
-				return
-			}
-		}
-	}
+	// 			return
+	// 		}
+	// 	}
+	// }
 
 	result <- 0
 }
@@ -49,9 +47,9 @@ func solvePuzzleB(input Data, result chan int) {
 }
 
 type Board struct {
-	Initial  [][]int
-	Unmarked [][]int
-	Marked   [][]int
+	Numbers [dimension][dimension]int
+	Rows    [dimension]int
+	Sum     int
 }
 
 type Data struct {
@@ -99,83 +97,41 @@ func getDrawFrom(lines []string, result chan []int) {
 }
 
 func getBoardsFrom(lines []string, result chan []Board) {
-	// A board is of size 5x5, but with one separation line in-front it would be 6 lines.
-	// If we skipped first file with draw result rest of the input should be multiple of 6
-	step := dimension + 1
-	size := len(lines[1:]) / step
-	boards := make([]Board, size)
 
-	// Iterating over boards
-	for i := 0; i < size; i++ {
-		start := i*step + 1
-		end := start + step
-		board := Board{
-			Initial:  make([][]int, dimension),
-			Unmarked: make([][]int, dimension),
-			Marked:   make([][]int, dimension),
-		}
-
-		j := 0
-
-		// Iterating over lines within one board
-		for k := start; k < end; k++ {
-			// Skipping separator line
-			if lines[k] != "" {
-				row := make([]int, dimension)
-				// There is a padding in input data, it should be trimmed
-				line := strings.Trim(lines[k], " ")
-				line = strings.Replace(line, "  ", " ", 10)
-
-				// Iterating over numbers in the line
-				for l, number := range strings.Split(line, " ") {
-					value, err := strconv.Atoi(number)
-
-					if err != nil {
-						continue
-					}
-
-					row[l] = value
-				}
-
-				board.Initial[j] = row
-				board.Unmarked[j] = row
-				board.Marked[j] = make([]int, dimension)
-				j++
-			}
-		}
-
-		boards[i] = board
-	}
-
-	result <- boards
+	result <- nil
 }
 
-func (b Board) draw(number int) {
-	for i := 0; i < dimension; i++ {
-		for j := 0; j < dimension; j++ {
-			if b.Initial[i][j] == number {
-				b.Marked[i][j] = 1
-				b.Unmarked[i][j] = 0
-			}
-		}
-	}
-}
-
-func (b Board) hasWon() (result bool) {
-	for i := 0; i < dimension; i++ {
-		if utils.SumInts(b.Marked[i]) == dimension {
-			result = true
-			break
-		}
-	}
+func parseBoard(lines []string) (result Board) {
 
 	return
 }
 
-func (b Board) getScore(number int) (result int) {
-	for i := 0; i < dimension; i++ {
-		result += utils.SumInts(b.Unmarked[i])
-	}
+// func (b Board) draw(number int) {
+// 	for i := 0; i < dimension; i++ {
+// 		for j := 0; j < dimension; j++ {
+// 			if b.Numbers[i][j] == number {
+// 				b.Sum[i][j] = 1
+// 				b.Rows[i] += 1
+// 			}
+// 		}
+// 	}
+// }
 
-	return result * number
-}
+// func (b Board) hasWon() (result bool) {
+// 	for i := 0; i < dimension; i++ {
+// 		if utils.SumInts(b.Sum[i]) == dimension {
+// 			result = true
+// 			break
+// 		}
+// 	}
+
+// 	return
+// }
+
+// func (b Board) getScore(number int) (result int) {
+// 	for i := 0; i < dimension; i++ {
+// 		result += utils.SumInts(b.Rows[i])
+// 	}
+
+// 	return result * number
+// }
