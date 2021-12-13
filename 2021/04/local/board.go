@@ -1,4 +1,4 @@
-package main
+package local
 
 type Board struct {
 	Numbers [dimension][dimension]int
@@ -7,7 +7,7 @@ type Board struct {
 	Sum     int
 }
 
-func (b Board) draw(number int) (result Board) {
+func (b Board) Draw(number int) (result Board) {
 	result = b
 
 	for i := 0; i < dimension; i++ {
@@ -23,7 +23,7 @@ func (b Board) draw(number int) (result Board) {
 	return
 }
 
-func (b Board) hasWon() bool {
+func (b Board) HasWon() bool {
 	for i := 0; i < dimension; i++ {
 		if b.Rows[i] == dimension {
 			return true
@@ -39,6 +39,6 @@ func (b Board) hasWon() bool {
 	return false
 }
 
-func (b Board) getScore(number int) int {
+func (b Board) GetScore(number int) int {
 	return b.Sum * number
 }

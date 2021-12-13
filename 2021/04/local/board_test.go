@@ -1,4 +1,4 @@
-package main
+package local
 
 import (
 	"strings"
@@ -19,7 +19,7 @@ func TestDrawNumber(t *testing.T) {
 	expected := 1142
 
 	// Act
-	board = board.draw(17)
+	board = board.Draw(17)
 	actual := board.Sum
 
 	// Assert

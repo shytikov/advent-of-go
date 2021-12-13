@@ -1,4 +1,4 @@
-package main
+package local
 
 import (
 	"io/ioutil"
@@ -11,7 +11,7 @@ type Data struct {
 	Boards []Board
 }
 
-func readBingo(filename string) Data {
+func Read(filename string) Data {
 	content, err := ioutil.ReadFile(filename)
 
 	if err != nil {
