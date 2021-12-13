@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/shytikov/advent-of-go/utils"
+
+	"github.com/shytikov/advent-of-go/2021/02/local"
 )
 
 func main() {
-	input := utils.ReadCommandsFromLInes("./input.txt")
+	input := local.Read("./input.txt")
 
 	if input != nil {
 		resultA := make(chan int)
@@ -22,7 +23,7 @@ func main() {
 	}
 }
 
-func solvePuzzleA(input []utils.Command, result chan int) {
+func solvePuzzleA(input []local.Command, result chan int) {
 	stretch := 0
 	depth := 0
 
@@ -40,7 +41,7 @@ func solvePuzzleA(input []utils.Command, result chan int) {
 	result <- stretch * depth
 }
 
-func solvePuzzleB(input []utils.Command, result chan int) {
+func solvePuzzleB(input []local.Command, result chan int) {
 	stretch := 0
 	depth := 0
 	aim := 0
