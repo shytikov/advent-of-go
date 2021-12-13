@@ -6,12 +6,12 @@ import (
 	"github.com/shytikov/advent-of-go/2021/05/local"
 )
 
-const dimension = 5
-
 func main() {
 	input := local.Read("./input.txt")
 
-	if input != nil {
+	if input.Vents != nil {
+
+		fmt.Println(input)
 		resultA := make(chan int)
 		resultB := make(chan int)
 
@@ -25,12 +25,12 @@ func main() {
 	}
 }
 
-func solvePuzzleA(input []local.Vent, result chan int) {
+func solvePuzzleA(input local.Data, result chan int) {
 
 	result <- 0
 }
 
-func solvePuzzleB(input []local.Vent, result chan int) {
+func solvePuzzleB(input local.Data, result chan int) {
 
 	result <- 0
 }

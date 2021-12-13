@@ -32,9 +32,7 @@ func Read(filename string) (result Data) {
 	result.Vents = make([]Vent, len(lines))
 
 	for i, line := range lines {
-		go func(index int, definition string) {
-			result.Vents[index] = parseVent(definition)
-		}(i, line)
+		result.Vents[i] = parseVent(line)
 	}
 
 	return
