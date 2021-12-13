@@ -11,11 +11,11 @@ type Data struct {
 	Boards []Board
 }
 
-func Read(filename string) Data {
+func Read(filename string) (result Data) {
 	content, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-		return Data{}
+		return
 	}
 
 	lines := strings.Split(string(content), "\n")
@@ -26,10 +26,10 @@ func Read(filename string) Data {
 	go getDrawFrom(lines, draw)
 	go getBoardsFrom(lines, boards)
 
-	return Data{
-		Draw:   <-draw,
-		Boards: <-boards,
-	}
+	result.Draw = <-draw
+	result.Boards = <-boards
+
+	return
 }
 
 func getDrawFrom(lines []string, result chan []int) {
