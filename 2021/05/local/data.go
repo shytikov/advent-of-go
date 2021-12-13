@@ -6,6 +6,10 @@ import (
 	"strings"
 )
 
+type Data struct {
+	Vents []Vent
+}
+
 type Vent struct {
 	From Point
 	To   Point
@@ -16,24 +20,24 @@ type Point struct {
 	Y int
 }
 
-func Read(filename string) []Vent {
+func Read(filename string) (result Data) {
 	content, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-		return nil
+		return
 	}
 
 	lines := strings.Split(string(content), "\n")
 
-	result := make([]Vent, len(lines))
+	result.Vents = make([]Vent, len(lines))
 
 	for i, line := range lines {
 		go func(index int, definition string) {
-			result[index] = parseVent(definition)
+			result.Vents[index] = parseVent(definition)
 		}(i, line)
 	}
 
-	return result
+	return
 }
 
 func parsePoint(definition string) (result Point) {
