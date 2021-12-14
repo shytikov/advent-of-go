@@ -8,16 +8,8 @@ import (
 
 type Data struct {
 	Vents []Vent
-}
-
-type Vent struct {
-	From Point
-	To   Point
-}
-
-type Point struct {
-	X int
-	Y int
+	Min   Point
+	Max   Point
 }
 
 func Read(filename string) (result Data) {
@@ -33,6 +25,35 @@ func Read(filename string) (result Data) {
 
 	for i, line := range lines {
 		result.Vents[i] = parseVent(line)
+
+		if result.Vents[i].From.X < result.Min.X {
+			result.Min.X = result.Vents[i].From.X
+		}
+
+		if result.Vents[i].From.X > result.Max.X {
+			result.Max.X = result.Vents[i].From.X
+		}
+
+		if result.Vents[i].From.Y < result.Min.Y {
+			result.Min.Y = result.Vents[i].From.Y
+		}
+
+		if result.Vents[i].From.Y > result.Max.Y {
+			result.Max.Y = result.Vents[i].From.Y
+		}
+	}
+
+	return
+}
+
+func (d Data) CreateDiagram() (result [][]int) {
+	lenX := d.Max.X - d.Min.X
+	lenY := d.Max.Y - d.Min.Y
+
+	result = make([][]int, lenX)
+
+	for i := range result {
+		result[i] = make([]int, lenY)
 	}
 
 	return

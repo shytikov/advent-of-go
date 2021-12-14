@@ -10,8 +10,6 @@ func main() {
 	input := local.Read("./input.txt")
 
 	if input.Vents != nil {
-
-		fmt.Println(input)
 		resultA := make(chan int)
 		resultB := make(chan int)
 
@@ -26,6 +24,13 @@ func main() {
 }
 
 func solvePuzzleA(input local.Data, result chan int) {
+	diagram := input.CreateDiagram()
+
+	for _, vent := range input.Vents {
+		if vent.IsOrthogonal() {
+
+		}
+	}
 
 	result <- 0
 }
