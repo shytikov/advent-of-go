@@ -10,8 +10,16 @@ type Point struct {
 	Y int
 }
 
+func (v Vent) IsHorizontal() bool {
+	return v.From.X == v.To.X
+}
+
+func (v Vent) IsVertical() bool {
+	return v.From.Y == v.To.Y
+}
+
 func (v Vent) IsOrthogonal() bool {
-	return v.From.X == v.To.X || v.From.Y == v.To.Y
+	return v.IsHorizontal() || v.IsVertical()
 }
 
 func (v Vent) IsDiagonal() bool {
