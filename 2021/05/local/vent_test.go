@@ -5,6 +5,7 @@ import "testing"
 func TestIsOrthogonal(t *testing.T) {
 	// Arrange
 	vent := Vent{
+		Definition: "599,531 -> 599,32",
 		From: Point{
 			599,
 			531,
@@ -26,9 +27,10 @@ func TestIsOrthogonal(t *testing.T) {
 	}
 }
 
-func TestVentIsHorizontal(t *testing.T) {
+func TestVentIsVertical(t *testing.T) {
 	// Arrange
 	vent := Vent{
+		Definition: "599,531 -> 599,32",
 		From: Point{
 			599,
 			531,
@@ -36,36 +38,6 @@ func TestVentIsHorizontal(t *testing.T) {
 		To: Point{
 			599,
 			32,
-		},
-	}
-
-	expectedHorizontal := true
-	expectedVertical := false
-
-	// Act
-	actualHorizontal := vent.IsHorizontal()
-	actualVertical := vent.IsVertical()
-
-	// Assert
-	if actualHorizontal != expectedHorizontal {
-		t.Errorf("Result was incorrect, got: %t, want: %t", actualHorizontal, expectedHorizontal)
-	}
-
-	if actualVertical != expectedVertical {
-		t.Errorf("Result was incorrect, got: %t, want: %t", actualVertical, expectedVertical)
-	}
-}
-
-func TestVentIsVertical(t *testing.T) {
-	// Arrange
-	vent := Vent{
-		From: Point{
-			771,
-			406,
-		},
-		To: Point{
-			120,
-			406,
 		},
 	}
 
@@ -78,10 +50,41 @@ func TestVentIsVertical(t *testing.T) {
 
 	// Assert
 	if actualHorizontal != expectedHorizontal {
-		t.Errorf("Result was incorrect, got: %t, want: %t", actualHorizontal, expectedHorizontal)
+		t.Errorf("Vent (%s) was vertical, IsHorizontal() got: %t, want: %t", vent.Definition, actualHorizontal, expectedHorizontal)
 	}
 
 	if actualVertical != expectedVertical {
-		t.Errorf("Result was incorrect, got: %t, want: %t", actualVertical, expectedVertical)
+		t.Errorf("Vent (%s) was vertical, IsVertical() got: %t, want: %t", vent.Definition, actualVertical, expectedVertical)
+	}
+}
+
+func TestVentIsHorizontal(t *testing.T) {
+	// Arrange
+	vent := Vent{
+		Definition: "771,406 -> 120,406",
+		From: Point{
+			771,
+			406,
+		},
+		To: Point{
+			120,
+			406,
+		},
+	}
+
+	expectedHorizontal := true
+	expectedVertical := false
+
+	// Act
+	actualHorizontal := vent.IsHorizontal()
+	actualVertical := vent.IsVertical()
+
+	// Assert
+	if actualHorizontal != expectedHorizontal {
+		t.Errorf("Vent (%s) was horizontal, IsHorizontal() got: %t, want: %t", vent.Definition, actualHorizontal, expectedHorizontal)
+	}
+
+	if actualVertical != expectedVertical {
+		t.Errorf("Vent (%s) was horizontal, IsVertical() got: %t, want: %t", vent.Definition, actualVertical, expectedVertical)
 	}
 }

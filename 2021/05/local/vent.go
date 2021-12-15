@@ -1,8 +1,9 @@
 package local
 
 type Vent struct {
-	From Point
-	To   Point
+	Definition string
+	From       Point
+	To         Point
 }
 
 type Point struct {
@@ -11,11 +12,11 @@ type Point struct {
 }
 
 func (v Vent) IsHorizontal() bool {
-	return v.From.X == v.To.X
+	return v.From.Y == v.To.Y
 }
 
 func (v Vent) IsVertical() bool {
-	return v.From.Y == v.To.Y
+	return v.From.X == v.To.X
 }
 
 func (v Vent) IsOrthogonal() bool {

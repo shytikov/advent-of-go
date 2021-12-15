@@ -47,8 +47,9 @@ func Read(filename string) (result Data) {
 }
 
 func (d Data) CreateDiagram() (result [][]int) {
-	lenX := d.Max.X - d.Min.X
-	lenY := d.Max.Y - d.Min.Y
+	// Preventing off by one error
+	lenX := d.Max.X - d.Min.X + 1
+	lenY := d.Max.Y - d.Min.Y + 1
 
 	result = make([][]int, lenX)
 
@@ -72,6 +73,7 @@ func parseVent(definition string) Vent {
 	chunks := strings.Split(definition, " -> ")
 
 	return Vent{
+		Definition: definition,
 		From: parsePoint(chunks[0]),
 		To:   parsePoint(chunks[1]),
 	}
