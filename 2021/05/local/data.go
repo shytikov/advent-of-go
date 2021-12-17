@@ -41,9 +41,12 @@ func parseData(content string) (result Data) {
 	lines := strings.Split(content, "\n")
 	count := len(lines)
 
-	points := make(chan Point, count*2)
+	x := make(chan int, count)
+	y := make(chan int, count)
 
 	result.Vents = make([]Vent, count)
+	result.Min = Point{0, 0}
+	result.Max = Point{0, 0}
 
 	var wg sync.WaitGroup
 
@@ -53,28 +56,32 @@ func parseData(content string) (result Data) {
 		go func(index int, definition string) {
 			defer wg.Done()
 
-			result.Vents[index] = parseVent(definition)
+			vent := parseVent(definition)
 
-			points <- result.Vents[index].From
-			points <- result.Vents[index].To
+			result.Vents[index] = vent
 
+			getMaxToChannel(x, vent.From.X, vent.To.X)
+			getMaxToChannel(y, vent.From.Y, vent.To.Y)
 		}(i, line)
 	}
 
 	wg.Wait()
-	close(points)
+	close(x)
+	close(y)
 
-	for point := range points {
-		result.Min = Point{
-			getMin(result.Min.X, point.X),
-			getMin(result.Min.Y, point.Y),
-		}
+	wg.Add(2)
 
-		result.Max = Point{
-			getMax(result.Max.X, point.X),
-			getMax(result.Max.Y, point.Y),
-		}
-	}
+	go func() {
+		defer wg.Done()
+		result.Max.X = getMaxFromChannel(x)
+	}()
+
+	go func() {
+		defer wg.Done()
+		result.Max.Y = getMaxFromChannel(y)
+	}()
+
+	wg.Wait()
 
 	return
 }
@@ -99,18 +106,20 @@ func parseVent(definition string) Vent {
 	}
 }
 
-func getMin(previous, current int) int {
-	if previous <= current {
-		return previous
+func getMaxToChannel(output chan int, a, b int) {
+	if a >= b {
+		output <- a
 	} else {
-		return current
+		output <- b
 	}
 }
 
-func getMax(previous, current int) int {
-	if previous >= current {
-		return previous
-	} else {
-		return current
+func getMaxFromChannel(input chan int) (result int) {
+	for number := range input {
+		if result < number {
+			result = number
+		}
 	}
+
+	return
 }
