@@ -19,18 +19,35 @@ func TestDiagramDraw(t *testing.T) {
 		5,5 -> 8,2`
 
 	data := parseData(definition)
-	diagram := data.CreateDiagram()
+	actual := data.CreateDiagram()
+
+	expected := [][]int{
+		{0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+		{0, 0, 1, 0, 0, 0, 0, 1, 0, 0},
+		{0, 0, 1, 0, 0, 0, 0, 1, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+		{0, 1, 1, 2, 1, 1, 1, 2, 1, 1},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{2, 2, 2, 1, 1, 1, 0, 0, 0, 0},
+	}
 
 	// Act
-	diagram.Draw(data.Vents[0])
+	for _, vent := range data.Vents {
+		if vent.IsOrthogonal() {
+			actual.Draw(vent)
+		}
+	}
 
 	// Assert
-	// fmt.Println(diagram)
-	//	if actualHorizontal != expectedHorizontal {
-	//		t.Errorf("Vent (%s) was vertical, IsHorizontal() got: %t, want: %t", vent.Definition, actualHorizontal, expectedHorizontal)
-	//	}
-	//
-	//	if actualVertical != expectedVertical {
-	//		t.Errorf("Vent (%s) was vertical, IsVertical() got: %t, want: %t", vent.Definition, actualVertical, expectedVertical)
-	//	}
+	for i := 0; i < len(expected); i++ {
+		for j := 0; j < len(expected[i]); j++ {
+			if actual[i][j] != expected[i][j] {
+				t.Errorf("Value on (%d, %d) was incorrect, got: %d, want: %d", i, j, actual[i][j], expected[i][j])
+				return
+			}
+		}
+	}
 }

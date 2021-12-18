@@ -25,13 +25,14 @@ func Read(filename string) Data {
 
 func (d Data) CreateDiagram() (result Diagram) {
 	// Preventing off by one error
-	lenX := d.Max.X - d.Min.X + 1
-	lenY := d.Max.Y - d.Min.Y + 1
+	lenX := d.Max.X + 1
+	lenY := d.Max.Y + 1
 
-	result = make(Diagram, lenX)
+	// Vertical coordinate (Y) should come first
+	result = make(Diagram, lenY)
 
 	for i := range result {
-		result[i] = make([]int, lenY)
+		result[i] = make([]int, lenX)
 	}
 
 	return
@@ -45,11 +46,10 @@ func parseData(content string) (result Data) {
 	y := make(chan int, count)
 
 	result.Vents = make([]Vent, count)
-	result.Min = Point{0, 0}
-	result.Max = Point{0, 0}
 
 	var wg sync.WaitGroup
 
+	// Parsing all vents at once
 	for i, line := range lines {
 		wg.Add(1)
 
@@ -58,10 +58,10 @@ func parseData(content string) (result Data) {
 
 			vent := parseVent(definition)
 
-			result.Vents[index] = vent
+			setMaxToChannel(x, vent.From.X, vent.To.X)
+			setMaxToChannel(y, vent.From.Y, vent.To.Y)
 
-			getMaxToChannel(x, vent.From.X, vent.To.X)
-			getMaxToChannel(y, vent.From.Y, vent.To.Y)
+			result.Vents[index] = vent
 		}(i, line)
 	}
 
@@ -69,15 +69,18 @@ func parseData(content string) (result Data) {
 	close(x)
 	close(y)
 
+	// Calculating max coordinates in parallel as well
 	wg.Add(2)
 
 	go func() {
 		defer wg.Done()
+
 		result.Max.X = getMaxFromChannel(x)
 	}()
 
 	go func() {
 		defer wg.Done()
+
 		result.Max.Y = getMaxFromChannel(y)
 	}()
 
@@ -106,7 +109,7 @@ func parseVent(definition string) Vent {
 	}
 }
 
-func getMaxToChannel(output chan int, a, b int) {
+func setMaxToChannel(output chan int, a, b int) {
 	if a >= b {
 		output <- a
 	} else {
