@@ -3,41 +3,31 @@ package local
 type Diagram [][]int
 
 func (d Diagram) Draw(v Vent) {
+	var beginX, beginY, endX, endY int
+
 	if v.IsHorizontal() {
-		var begin int
-		var end int
-
 		if v.From.X > v.To.X {
-			begin = v.To.X
-			end = v.From.X
+			beginX, endX = v.To.X, v.From.X
 		} else {
-			begin = v.From.X
-			end = v.To.X
+			beginX, endX = v.From.X, v.To.X
 		}
 
-		y := v.From.Y
-
-		for i := begin; i <= end; i++ {
-			d[y][i] = d[y][i] + 1
-		}
+		beginY, endY = v.From.Y, v.From.Y
 	}
 
 	if v.IsVertical() {
-		var begin int
-		var end int
-
 		if v.From.Y > v.To.Y {
-			begin = v.To.Y
-			end = v.From.Y
+			beginY, endY = v.To.Y, v.From.Y
 		} else {
-			begin = v.From.Y
-			end = v.To.Y
+			beginY, endY = v.From.Y, v.To.Y
 		}
 
-		x := v.From.X
+		beginX, endX = v.From.X, v.From.X
+	}
 
-		for i := begin; i <= end; i++ {
-			d[i][x] = d[i][x] + 1
+	for y := beginY; y <= endY; y++ {
+		for x := beginX; x <= endX; x++ {
+			d[y][x] += 1
 		}
 	}
 }
