@@ -36,16 +36,7 @@ func TestDiagramDraw(t *testing.T) {
 
 	// Act
 	for _, vent := range data.Vents {
-		if vent.IsOrthogonal() {
-			actual.Draw(vent)
-
-			//			fmt.Println()
-			//
-			//			for _, row := range actual {
-			//				fmt.Println(row)
-			//			}
-		}
-
+		actual.Draw(vent)
 	}
 
 	// Assert
@@ -85,7 +76,7 @@ func TestDiagramCount(t *testing.T) {
 	}
 }
 
-func TestDiagramDrawOrthogonal(t *testing.T) {
+func TestDiagramSimpleOrthogonal(t *testing.T) {
 	// Arrange
 	definition :=
 		`0,9 -> 5,9
@@ -108,9 +99,43 @@ func TestDiagramDrawOrthogonal(t *testing.T) {
 
 	// Act
 	for _, vent := range data.Vents {
-		if vent.IsOrthogonal() {
-			actual.Draw(vent)
+		actual.Draw(vent)
+	}
+
+	// Assert
+	for i := 0; i < len(expected); i++ {
+		for j := 0; j < len(expected[i]); j++ {
+			if actual[i][j] != expected[i][j] {
+				t.Errorf("Value on (%d, %d) was incorrect, got: %d, want: %d", i, j, actual[i][j], expected[i][j])
+				return
+			}
 		}
+	}
+}
+
+func TestDiagramSimpleDiagonal(t *testing.T) {
+	// Arrange
+	definition :=
+		`0,0 -> 8,8
+		5,5 -> 8,2`
+
+	data := parseData(definition)
+	actual := data.CreateDiagram()
+	expected := Diagram{
+		{1, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 1, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 1, 0, 0, 0, 0, 0, 1},
+		{0, 0, 0, 1, 0, 0, 0, 1, 0},
+		{0, 0, 0, 0, 1, 0, 1, 0, 0},
+		{0, 0, 0, 0, 0, 2, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 1, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 1, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 1},
+	}
+
+	// Act
+	for _, vent := range data.Vents {
+		actual.Draw(vent)
 	}
 
 	// Assert
