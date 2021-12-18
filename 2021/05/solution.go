@@ -36,6 +36,11 @@ func solvePuzzleA(input local.Data, result chan int) {
 }
 
 func solvePuzzleB(input local.Data, result chan int) {
+	diagram := input.CreateDiagram()
 
-	result <- 0
+	for _, vent := range input.Vents {
+		diagram.Draw(vent)
+	}
+
+	result <- diagram.CountGreaterThan(1)
 }

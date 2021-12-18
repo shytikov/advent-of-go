@@ -2,33 +2,9 @@ package local
 
 type Diagram [][]int
 
-func (d Diagram) Draw(v Vent) {
-	var beginX, beginY, endX, endY int
-
-	if v.IsHorizontal() {
-		if v.From.X > v.To.X {
-			beginX, endX = v.To.X, v.From.X
-		} else {
-			beginX, endX = v.From.X, v.To.X
-		}
-
-		beginY, endY = v.From.Y, v.From.Y
-	}
-
-	if v.IsVertical() {
-		if v.From.Y > v.To.Y {
-			beginY, endY = v.To.Y, v.From.Y
-		} else {
-			beginY, endY = v.From.Y, v.To.Y
-		}
-
-		beginX, endX = v.From.X, v.From.X
-	}
-
-	for i := beginY; i <= endY; i++ {
-		for j := beginX; j <= endX; j++ {
-			d[i][j] += 1
-		}
+func (d Diagram) Draw(vent Vent) {
+	if vent.IsOrthogonal() {
+		d.drawOrthogonal(vent)
 	}
 }
 
@@ -42,4 +18,16 @@ func (d Diagram) CountGreaterThan(threshold int) (result int) {
 	}
 
 	return
+}
+
+func (d Diagram) drawOrthogonal(vent Vent) {
+	if vent.From.X > vent.To.X || vent.From.Y > vent.To.Y {
+		vent.From, vent.To = vent.To, vent.From
+	}
+
+	for i := vent.From.Y; i <= vent.To.Y; i++ {
+		for j := vent.From.X; j <= vent.To.X; j++ {
+			d[i][j] += 1
+		}
+	}
 }
