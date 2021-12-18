@@ -27,7 +27,7 @@ func solvePuzzleA(input local.Data, result chan int) {
 	diagram := input.CreateDiagram()
 
 	for _, vent := range input.Vents {
-		if vent.IsOrthogonal() {
+		if vent.Vector.X == 0 || vent.Vector.Y == 0 {
 			diagram.Draw(vent)
 		}
 	}

@@ -98,15 +98,39 @@ func parsePoint(definition string) (result Point) {
 	return
 }
 
-func parseVent(definition string) Vent {
+func parseVent(definition string) (result Vent) {
 	definition = strings.TrimSpace(definition)
 	chunks := strings.Split(definition, " -> ")
 
-	return Vent{
-		Definition: definition,
-		From:       parsePoint(chunks[0]),
-		To:         parsePoint(chunks[1]),
+	from := parsePoint(chunks[0])
+	to := parsePoint(chunks[1])
+
+	result = Vent{
+		From:   from,
+		To:     to,
+		Vector: getDirection(from, to),
 	}
+
+	return
+}
+
+func getDirection(from, to Point) (result Point) {
+	result = Point{1, 1}
+
+	if from.X > to.X {
+		result.X = -1
+	}
+	if from.Y > to.Y {
+		result.Y = -1
+	}
+	if from.X == to.X {
+		result.X = 0
+	}
+	if from.Y == to.Y {
+		result.Y = 0
+	}
+
+	return
 }
 
 func setMaxToChannel(output chan int, a, b int) {
