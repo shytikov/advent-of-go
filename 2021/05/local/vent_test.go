@@ -30,14 +30,14 @@ func TestIsOrthogonal(t *testing.T) {
 func TestVentIsVertical(t *testing.T) {
 	// Arrange
 	vent := Vent{
-		Definition: "599,531 -> 599,32",
+		Definition: "771,406 -> 120,406",
 		From: Point{
-			599,
-			531,
+			771,
+			406,
 		},
 		To: Point{
-			599,
-			32,
+			120,
+			406,
 		},
 	}
 
@@ -61,14 +61,14 @@ func TestVentIsVertical(t *testing.T) {
 func TestVentIsHorizontal(t *testing.T) {
 	// Arrange
 	vent := Vent{
-		Definition: "771,406 -> 120,406",
+		Definition: "599,531 -> 599,32",
 		From: Point{
-			771,
-			406,
+			599,
+			531,
 		},
 		To: Point{
-			120,
-			406,
+			599,
+			32,
 		},
 	}
 
