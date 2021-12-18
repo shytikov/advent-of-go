@@ -21,7 +21,7 @@ func TestDiagramDraw(t *testing.T) {
 	data := parseData(definition)
 	actual := data.CreateDiagram()
 
-	expected := [][]int{
+	expected := Diagram{
 		{0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
 		{0, 0, 1, 0, 0, 0, 0, 1, 0, 0},
 		{0, 0, 1, 0, 0, 0, 0, 1, 0, 0},
@@ -49,5 +49,32 @@ func TestDiagramDraw(t *testing.T) {
 				return
 			}
 		}
+	}
+}
+
+func TestCount(t *testing.T) {
+	// Arrange
+	diagram := Diagram{
+		{0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+		{0, 0, 1, 0, 0, 0, 0, 1, 0, 0},
+		{0, 0, 1, 0, 0, 0, 0, 1, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+		{0, 1, 1, 2, 1, 1, 1, 2, 1, 1},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{2, 2, 2, 1, 1, 1, 0, 0, 0, 0},
+	}
+
+	expected := 5
+
+	// Act
+	actual := diagram.CountGreaterThan(1)
+
+	// Assert
+
+	if actual != expected {
+		t.Errorf("Count was incorrect, got: %d, want: %d", actual, expected)
 	}
 }

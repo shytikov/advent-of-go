@@ -32,17 +32,7 @@ func solvePuzzleA(input local.Data, result chan int) {
 		}
 	}
 
-	count := 0
-
-	for i := 0; i < len(diagram); i++ {
-		for j := 0; j < len(diagram[i]); j++ {
-			if diagram[i][j] > 1 {
-				count++
-			}
-		}
-	}
-
-	result <- count
+	result <- diagram.CountGreaterThan(1)
 }
 
 func solvePuzzleB(input local.Data, result chan int) {

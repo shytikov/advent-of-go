@@ -25,9 +25,21 @@ func (d Diagram) Draw(v Vent) {
 		beginX, endX = v.From.X, v.From.X
 	}
 
-	for y := beginY; y <= endY; y++ {
-		for x := beginX; x <= endX; x++ {
-			d[y][x] += 1
+	for i := beginY; i <= endY; i++ {
+		for j := beginX; j <= endX; j++ {
+			d[i][j] += 1
 		}
 	}
+}
+
+func (d Diagram) CountGreaterThan(threshold int) (result int) {
+	for i := 0; i < len(d); i++ {
+		for j := 0; j < len(d[i]); j++ {
+			if d[i][j] > threshold {
+				result++
+			}
+		}
+	}
+
+	return
 }
