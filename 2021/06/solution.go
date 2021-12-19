@@ -26,6 +26,8 @@ func main() {
 func solvePuzzleA(input [][]int, result chan int) {
 	school := append([]int(nil), input[0]...)
 
+	// This approach is not optimal, but its presents and actually ability to execute flawlessly on small amounts of data
+	// is good for the contrast as it is not scale, and for second part another approach should be taken
 	for i := 0; i < 80; i++ {
 		count := len(school)
 
@@ -44,6 +46,32 @@ func solvePuzzleA(input [][]int, result chan int) {
 }
 
 func solvePuzzleB(input [][]int, result chan int) {
-	//	_ := append([]int(nil), input[0]...)
-	result <- 0
+	school := make(map[int]int)
+
+	// This time instead of increasing slice length, hashmap is used that keeps count of all generations
+	for _, fish := range input[0] {
+		if count, ok := school[fish]; ok {
+			school[fish] = count + 1
+		} else {
+			school[fish] = 1
+		}
+	}
+
+	for i := 0; i < 256; i++ {
+		temp := school[0]
+
+		for i := 1; i <= len(school); i++ {
+			school[i-1] = school[i]
+		}
+
+		school[6] += temp
+		school[8] = temp
+	}
+
+	total := 0
+	for _, count := range school {
+		total += count
+	}
+
+	result <- total
 }
