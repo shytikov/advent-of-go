@@ -46,21 +46,18 @@ func solvePuzzleA(input [][]int, result chan int) {
 }
 
 func solvePuzzleB(input [][]int, result chan int) {
-	school := make(map[int]int)
+	states := 9
+	school := make([]int, states)
 
 	// This time instead of increasing slice length, hashmap is used that keeps count of all generations
 	for _, fish := range input[0] {
-		if count, ok := school[fish]; ok {
-			school[fish] = count + 1
-		} else {
-			school[fish] = 1
-		}
+		school[fish] += 1
 	}
 
 	for i := 0; i < 256; i++ {
 		temp := school[0]
 
-		for i := 1; i <= len(school); i++ {
+		for i := 1; i < states; i++ {
 			school[i-1] = school[i]
 		}
 
