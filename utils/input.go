@@ -41,7 +41,7 @@ func ReadIntSlicesFromLines(filename string) (result [][]int) {
 			number, err := strconv.Atoi(string([]rune{char}))
 
 			if err != nil {
-				continue
+				return nil
 			}
 
 			serie = append(serie, number)

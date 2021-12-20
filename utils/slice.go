@@ -2,19 +2,26 @@ package utils
 
 import "math"
 
-func SumInts(slice []int) int {
-	result := 0
-
+func SumInts(slice []int) (result int) {
 	for _, value := range slice {
 		result += value
 	}
 
-	return result
+	return
+}
+
+func MaxInInts(slice []int) (result int) {
+	for _, value := range slice {
+		if result < value {
+			result = value
+		}
+	}
+
+	return
 }
 
 // Converts loose binaries – array of integer `0` and `1` as a single integer
-func LooseBinaryToInt(slice []int) int {
-	result := 0
+func LooseBinaryToInt(slice []int) (result int) {
 	count := len(slice)
 
 	for i, digit := range slice {
@@ -24,5 +31,5 @@ func LooseBinaryToInt(slice []int) int {
 		}
 	}
 
-	return result
+	return
 }
