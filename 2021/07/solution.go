@@ -25,9 +25,36 @@ func main() {
 }
 
 func solvePuzzleA(input [][]int, result chan int) {
-	positions := input[0]
+	// Constant cost function
+	costFunction := func(distance int) int {
+		return int(math.Abs(float64(distance)))
+	}
+
+	cost := calculateCost(input[0], costFunction)
+
+	result <- shared.MinOf(cost)
+}
+
+func solvePuzzleB(input [][]int, result chan int) {
+	// Linear cost function
+	costFunction := func(distance int) (result int) {
+		cost := 0
+		for i := 0; i <= int(math.Abs(float64(distance))); i++ {
+			cost += i
+		}
+		result = cost
+
+		return
+	}
+
+	cost := calculateCost(input[0], costFunction)
+
+	result <- shared.MinOf(cost)
+}
+
+func calculateCost(positions []int, costFunction func(int) int) (result []int) {
 	max := shared.MaxOf(positions)
-	cost := make([]int, max+1)
+	result = make([]int, max+1)
 
 	var wg sync.WaitGroup
 
@@ -39,18 +66,14 @@ func solvePuzzleA(input [][]int, result chan int) {
 
 			fuel := 0
 			for _, position := range positions {
-				fuel += int(math.Abs(float64(position - target)))
+				fuel += costFunction(position - target)
 			}
 
-			cost[target] = fuel
+			result[target] = fuel
 		}(i)
 	}
 
 	wg.Wait()
 
-	result <- shared.MinOf(cost)
-}
-
-func solvePuzzleB(input [][]int, result chan int) {
-	result <- 0
+	return
 }
