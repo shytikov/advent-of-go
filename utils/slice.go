@@ -1,6 +1,8 @@
 package utils
 
-import "math"
+import (
+	"math"
+)
 
 func SumOf(slice []int) (result int) {
 	for _, value := range slice {

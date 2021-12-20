@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/shytikov/advent-of-go/utils"
 	"math"
 	"sync"
-
-	"github.com/shytikov/advent-of-go/utils"
 )
 
 func main() {
@@ -26,31 +25,36 @@ func main() {
 }
 
 func solvePuzzleA(input [][]int, result chan int) {
-	placement := input[0]
-	max := utils.MaxOf(placement)
-	distribution := make([]int, max+1)
+	positions := input[0]
+	max := utils.MaxOf(positions)
+	cost := make([]int, max+1)
 
 	var wg sync.WaitGroup
 
 	for i := 0; i <= max; i++ {
 		wg.Add(1)
 
-		go func(index int) {
+		go func(target int) {
 			defer wg.Done()
 
 			fuel := 0
-			for _, position := range placement {
-				fuel += int(math.Abs(float64(position - index)))
+			for _, position := range positions {
+				fuel += int(math.Abs(float64(position - target)))
 			}
 
-			distribution[index] = fuel
+			cost[target] = fuel
 		}(i)
 	}
 
 	wg.Wait()
 
-	// fmt.Println(distribution)
-	result <- utils.MinOf(distribution)
+	frequency := make([]int, max+1)
+
+	for _, position := range positions {
+		frequency[position] += 1
+	}
+
+	result <- utils.MinOf(cost)
 }
 
 func solvePuzzleB(input [][]int, result chan int) {

@@ -40,14 +40,14 @@ func ReadIntSliceFromRuneSlice(filename string) (result [][]int) {
 	for _, line := range strings.Split(string(content), "\n") {
 		chars := []rune(line)
 		serie := make([]int, len(chars))
-		for _, char := range chars {
+		for i, char := range chars {
 			number, err := strconv.Atoi(string([]rune{char}))
 
 			if err != nil {
 				return nil
 			}
 
-			serie = append(serie, number)
+			serie[i] = number
 		}
 
 		result = append(result, serie)
@@ -69,16 +69,15 @@ func ReadIntSliceFromLine(filename string) (result [][]int) {
 	for _, line := range strings.Split(string(content), "\n") {
 		chunks := strings.Split(line, ",")
 		serie := make([]int, len(chunks))
-		for _, chunk := range chunks {
+		for i, chunk := range chunks {
 			number, err := strconv.Atoi(chunk)
 
 			if err != nil {
 				return nil
 			}
 
-			serie = append(serie, number)
+			serie[i] = number
 		}
-
 		result = append(result, serie)
 	}
 
