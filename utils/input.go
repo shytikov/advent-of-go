@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func ReadIntsFromLines(filename string) (result []int) {
+func ReadIntSlicesFromLines(filename string) (result []int) {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil
@@ -29,7 +29,7 @@ func ReadIntsFromLines(filename string) (result []int) {
 	return result
 }
 
-func ReadIntSlicesFromLines(filename string) (result [][]int) {
+func ReadIntSlicesFromRuneSlices(filename string) (result [][]int) {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil

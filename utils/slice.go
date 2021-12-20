@@ -20,7 +20,8 @@ func MaxInInts(slice []int) (result int) {
 	return
 }
 
-// Converts loose binaries – array of integer `0` and `1` as a single integer
+// LooseBinaryToInt converts loose binaries – array of integer `0` and `1` as a single integer
+// For example, 001010011010 will become 666
 func LooseBinaryToInt(slice []int) (result int) {
 	count := len(slice)
 

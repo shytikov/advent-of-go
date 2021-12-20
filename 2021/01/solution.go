@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	input := utils.ReadIntsFromLines("./input.txt")
+	input := utils.ReadIntSlicesFromLines("./input.txt")
 
 	if input != nil {
 		resultA := make(chan int)
