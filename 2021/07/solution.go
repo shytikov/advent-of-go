@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	input := utils.ReadIntSlicesFromRuneSlices("./input.txt")
+	input := utils.ReadIntSliceFromRuneSlice("./input.txt")
 
 	fmt.Println(input)
 

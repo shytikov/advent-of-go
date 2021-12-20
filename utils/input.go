@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func ReadIntSlicesFromLines(filename string) (result []int) {
+func ReadIntFromLine(filename string) (result []int) {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil
@@ -26,18 +26,21 @@ func ReadIntSlicesFromLines(filename string) (result []int) {
 		return nil
 	}
 
-	return result
+	return
 }
 
-func ReadIntSlicesFromRuneSlices(filename string) (result [][]int) {
+// ReadIntSliceFromRuneSlice will read file and will treat each line as slice of runes
+// Each rune then will be converted to integer
+func ReadIntSliceFromRuneSlice(filename string) (result [][]int) {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil
 	}
 
 	for _, line := range strings.Split(string(content), "\n") {
-		serie := make([]int, 0)
-		for _, char := range []rune(line) {
+		chars := []rune(line)
+		serie := make([]int, len(chars))
+		for _, char := range chars {
 			number, err := strconv.Atoi(string([]rune{char}))
 
 			if err != nil {
@@ -54,5 +57,34 @@ func ReadIntSlicesFromRuneSlices(filename string) (result [][]int) {
 		return nil
 	}
 
-	return result
+	return
+}
+
+func ReadIntSliceFromLine(filename string) (result [][]int) {
+	content, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return nil
+	}
+
+	for _, line := range strings.Split(string(content), "\n") {
+		chunks := strings.Split(line, ",")
+		serie := make([]int, len(chunks))
+		for _, chunk := range chunks {
+			number, err := strconv.Atoi(chunk)
+
+			if err != nil {
+				return nil
+			}
+
+			serie = append(serie, number)
+		}
+
+		result = append(result, serie)
+	}
+
+	if len(result) == 0 {
+		return nil
+	}
+
+	return
 }
