@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	input := shared.ReadIntSliceFromLine("./input.txt")
+	input := shared.ReadIntSlicesFromLines("./input.txt")
 
 	if input != nil && len(input) > 0 {
 		resultA := make(chan int)
@@ -47,12 +47,6 @@ func solvePuzzleA(input [][]int, result chan int) {
 	}
 
 	wg.Wait()
-
-	frequency := make([]int, max+1)
-
-	for _, position := range positions {
-		frequency[position] += 1
-	}
 
 	result <- shared.MinOf(cost)
 }
