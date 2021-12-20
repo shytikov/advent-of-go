@@ -54,7 +54,7 @@ func solvePuzzleB(input local.Data, result chan int) {
 
 			if boards[i].HasWon() {
 				winners[i] = 1
-				if utils.SumInts(winners) == count {
+				if utils.SumOf(winners) == count {
 					result <- boards[i].GetScore(number)
 					return
 				}

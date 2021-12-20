@@ -9,9 +9,7 @@ import (
 )
 
 func main() {
-	input := utils.ReadIntSliceFromRuneSlice("./input.txt")
-
-	fmt.Println(input)
+	input := utils.ReadIntSliceFromLine("./input.txt")
 
 	if input != nil && len(input) > 0 {
 		resultA := make(chan int)
@@ -29,7 +27,7 @@ func main() {
 
 func solvePuzzleA(input [][]int, result chan int) {
 	placement := input[0]
-	max := utils.MaxInInts(placement)
+	max := utils.MaxOf(placement)
 	distribution := make([]int, max+1)
 
 	var wg sync.WaitGroup
@@ -51,8 +49,8 @@ func solvePuzzleA(input [][]int, result chan int) {
 
 	wg.Wait()
 
-	fmt.Println(max, distribution)
-	result <- 16 + 1 + 2 + 0 + 4 + 2 + 7 + 1 + 2 + 14
+	// fmt.Println(distribution)
+	result <- utils.MinOf(distribution)
 }
 
 func solvePuzzleB(input [][]int, result chan int) {

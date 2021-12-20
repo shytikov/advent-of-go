@@ -2,7 +2,7 @@ package utils
 
 import "math"
 
-func SumInts(slice []int) (result int) {
+func SumOf(slice []int) (result int) {
 	for _, value := range slice {
 		result += value
 	}
@@ -10,9 +10,23 @@ func SumInts(slice []int) (result int) {
 	return
 }
 
-func MaxInInts(slice []int) (result int) {
+func MaxOf(slice []int) (result int) {
+	result = math.MinInt
+
 	for _, value := range slice {
 		if result < value {
+			result = value
+		}
+	}
+
+	return
+}
+
+func MinOf(slice []int) (result int) {
+	result = math.MaxInt
+
+	for _, value := range slice {
+		if result > value {
 			result = value
 		}
 	}
