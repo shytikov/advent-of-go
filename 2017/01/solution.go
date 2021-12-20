@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/shytikov/advent-of-go/utils"
+	"github.com/shytikov/advent-of-go/shared"
 )
 
 func main() {
-	input := utils.ReadIntSliceFromRuneSlice("./input.txt")
+	input := shared.ReadIntSliceFromRuneSlice("./input.txt")
 
 	if input != nil {
 		resultA := make(chan int)

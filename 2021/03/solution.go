@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/shytikov/advent-of-go/utils"
+	"github.com/shytikov/advent-of-go/shared"
 )
 
 func main() {
-	input := utils.ReadIntSliceFromRuneSlice("./input.txt")
+	input := shared.ReadIntSliceFromRuneSlice("./input.txt")
 
 	if input != nil {
 		resultA := make(chan int)
@@ -50,7 +50,7 @@ func solvePuzzleA(input [][]int, result chan int) {
 		}
 	}
 
-	result <- utils.LooseBinaryToInt(γ) * utils.LooseBinaryToInt(ε)
+	result <- shared.LooseBinaryToInt(γ) * shared.LooseBinaryToInt(ε)
 }
 
 func solvePuzzleB(input [][]int, result chan int) {
@@ -65,7 +65,7 @@ func solvePuzzleB(input [][]int, result chan int) {
 	go calculateMetric(O2, input, gauge["O2"])
 	go calculateMetric(CO2, input, gauge["CO2"])
 
-	result <- utils.LooseBinaryToInt(<-gauge["O2"]) * utils.LooseBinaryToInt(<-gauge["CO2"])
+	result <- shared.LooseBinaryToInt(<-gauge["O2"]) * shared.LooseBinaryToInt(<-gauge["CO2"])
 }
 
 func calculateMetric(detector func(count0 int, count1 int) bool, input [][]int, output chan []int) {

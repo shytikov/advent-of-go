@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/shytikov/advent-of-go/2021/04/local"
-	"github.com/shytikov/advent-of-go/utils"
+	"github.com/shytikov/advent-of-go/shared"
 )
 
 func main() {
@@ -54,7 +54,7 @@ func solvePuzzleB(input local.Data, result chan int) {
 
 			if boards[i].HasWon() {
 				winners[i] = 1
-				if utils.SumOf(winners) == count {
+				if shared.SumOf(winners) == count {
 					result <- boards[i].GetScore(number)
 					return
 				}

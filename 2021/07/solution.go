@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/shytikov/advent-of-go/utils"
+	"github.com/shytikov/advent-of-go/shared"
 	"math"
 	"sync"
 )
 
 func main() {
-	input := utils.ReadIntSliceFromLine("./input.txt")
+	input := shared.ReadIntSliceFromLine("./input.txt")
 
 	if input != nil && len(input) > 0 {
 		resultA := make(chan int)
@@ -26,7 +26,7 @@ func main() {
 
 func solvePuzzleA(input [][]int, result chan int) {
 	positions := input[0]
-	max := utils.MaxOf(positions)
+	max := shared.MaxOf(positions)
 	cost := make([]int, max+1)
 
 	var wg sync.WaitGroup
@@ -54,7 +54,7 @@ func solvePuzzleA(input [][]int, result chan int) {
 		frequency[position] += 1
 	}
 
-	result <- utils.MinOf(cost)
+	result <- shared.MinOf(cost)
 }
 
 func solvePuzzleB(input [][]int, result chan int) {
