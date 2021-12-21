@@ -88,7 +88,7 @@ func solvePuzzleB(input local.Data, result chan int) {
 
 		decoder[2] = decoder[8].Subtract(segment["B"]).Subtract(segment["F"])
 		decoder[3] = decoder[8].Subtract(segment["B"]).Subtract(segment["E"])
-		decoder[3] = decoder[8].Subtract(segment["C"]).Subtract(segment["E"])
+		decoder[5] = decoder[8].Subtract(segment["C"]).Subtract(segment["E"])
 
 		total += entries[i].GetValue(decoder)
 	}
