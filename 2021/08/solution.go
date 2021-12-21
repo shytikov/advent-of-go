@@ -48,6 +48,7 @@ func solvePuzzleB(input local.Data, result chan int) {
 		fmt.Println(entries[i].FindPatternsByLen(2))
 		fmt.Println(entries[i].FindPatternsByLen(3))
 		fmt.Println(a)
+		fmt.Println(g)
 
 		break
 	}

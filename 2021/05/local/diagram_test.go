@@ -1,8 +1,6 @@
 package local
 
-import (
-	"testing"
-)
+import "testing"
 
 func TestDiagramDraw(t *testing.T) {
 	// Arrange

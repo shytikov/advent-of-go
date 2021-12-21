@@ -1,8 +1,6 @@
 package local
 
-import (
-	"testing"
-)
+import "testing"
 
 func TestParsePoint(t *testing.T) {
 	// Arrange
