@@ -28,8 +28,8 @@ func solvePuzzleA(input local.Data, result chan int) {
 
 	for i := 0; i < len(input); i++ {
 		for j := 0; j < len(input[i].Readings); j++ {
-			test := input[i].Readings[j].Decoded
-			if test == 1 || test == 4 || test == 7 || test == 8 {
+			digit := input[i].Readings[j].Decoded
+			if digit == 1 || digit == 4 || digit == 7 || digit == 8 {
 				count++
 			}
 		}
@@ -39,5 +39,13 @@ func solvePuzzleA(input local.Data, result chan int) {
 }
 
 func solvePuzzleB(input local.Data, result chan int) {
+	entries := append(local.Data(nil), input...)
+
+	for i := 0; i < len(entries); i++ {
+		entries[i].FindSegmentA()
+	}
+
+	fmt.Println(entries)
+
 	result <- 0
 }

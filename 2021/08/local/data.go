@@ -8,17 +8,6 @@ import (
 
 type Data []Entry
 
-type Entry struct {
-	Patterns []Digit
-	Readings []Digit
-}
-
-// Digit represent a number displayed on 7 segment indicator
-type Digit struct {
-	Original string
-	Decoded  int
-}
-
 func Read(filename string) Data {
 	content, err := ioutil.ReadFile(filename)
 
