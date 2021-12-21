@@ -2,6 +2,7 @@ package local
 
 import (
 	"io/ioutil"
+	"sort"
 	"strings"
 	"sync"
 )
@@ -59,7 +60,12 @@ func parsePart(definition string) (result []Digit) {
 }
 
 func parseDigit(definition string) (result Digit) {
-	result.Original = definition
+	result.Segments = []rune(definition)
+
+	// There is no particular need in sorting, but it will look more uniformly that way
+	sort.Slice(result.Segments, func(i, j int) bool {
+		return result.Segments[i] < result.Segments[j]
+	})
 
 	switch len(definition) {
 	case 2:

@@ -42,10 +42,15 @@ func solvePuzzleB(input local.Data, result chan int) {
 	entries := append(local.Data(nil), input...)
 
 	for i := 0; i < len(entries); i++ {
-		entries[i].FindSegmentA()
-	}
+		a := entries[i].FindSegmentA()
+		g := entries[i].FindSegmentG(a)
 
-	fmt.Println(entries)
+		fmt.Println(entries[i].FindPatternsByLen(2))
+		fmt.Println(entries[i].FindPatternsByLen(3))
+		fmt.Println(a)
+
+		break
+	}
 
 	result <- 0
 }
