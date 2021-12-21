@@ -1,6 +1,7 @@
 package local
 
 import (
+	"github.com/shytikov/advent-of-go/shared"
 	"io/ioutil"
 	"strconv"
 	"strings"
@@ -75,13 +76,13 @@ func parseData(content string) (result Data) {
 	go func() {
 		defer wg.Done()
 
-		result.Max.X = getMaxFromChannel(x)
+		result.Max.X = shared.GetMaxFromChannel(x)
 	}()
 
 	go func() {
 		defer wg.Done()
 
-		result.Max.Y = getMaxFromChannel(y)
+		result.Max.Y = shared.GetMaxFromChannel(y)
 	}()
 
 	wg.Wait()
@@ -139,14 +140,4 @@ func setMaxToChannel(output chan int, a, b int) {
 	} else {
 		output <- b
 	}
-}
-
-func getMaxFromChannel(input chan int) (result int) {
-	for number := range input {
-		if result < number {
-			result = number
-		}
-	}
-
-	return
 }
