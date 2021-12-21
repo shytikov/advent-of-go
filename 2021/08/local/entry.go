@@ -1,5 +1,7 @@
 package local
 
+import "math"
+
 type Entry struct {
 	Patterns []Figure
 	Readings []Figure
@@ -16,11 +18,16 @@ func (e Entry) FindPatternsByLen(value int) (result []Figure) {
 	return
 }
 
-func (e Entry) FindSegmentG(a rune) rune {
-	// `Patterns` always contain all the digits, and only once
-	// so we might be sure that `1` and `7` will be found
-	one := e.FindPatternsByLen(2)[0]
-	seven := e.FindPatternsByLen(3)[0]
+func (e Entry) GetValue(decoder map[int]Figure) (result int) {
+	i := len(e.Readings)
+	for _, reading := range e.Readings {
+		i--
+		for key, value := range decoder {
+			if string(value) == string(reading) {
+				result += key * int(math.Pow10(i))
+			}
+		}
+	}
 
-	return seven.Subtract(one)[0]
+	return
 }
