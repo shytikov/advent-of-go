@@ -47,10 +47,10 @@ func parseData(content string) (result Data) {
 	return
 }
 
-func parsePart(definition string) (result []Digit) {
+func parsePart(definition string) (result []Figure) {
 	chunks := strings.Split(definition, " ")
 
-	result = make([]Digit, len(chunks))
+	result = make([]Figure, len(chunks))
 
 	for i, digit := range chunks {
 		result[i] = parseDigit(digit)
@@ -59,26 +59,13 @@ func parsePart(definition string) (result []Digit) {
 	return
 }
 
-func parseDigit(definition string) (result Digit) {
-	result.Segments = []rune(definition)
+func parseDigit(definition string) (result Figure) {
+	result = []rune(definition)
 
 	// There is no particular need in sorting, but it will look more uniformly that way
-	sort.Slice(result.Segments, func(i, j int) bool {
-		return result.Segments[i] < result.Segments[j]
+	sort.Slice(result, func(i, j int) bool {
+		return result[i] < result[j]
 	})
-
-	switch len(definition) {
-	case 2:
-		result.Decoded = 1
-	case 3:
-		result.Decoded = 7
-	case 4:
-		result.Decoded = 4
-	case 7:
-		result.Decoded = 8
-	default:
-		result.Decoded = -1
-	}
 
 	return
 }

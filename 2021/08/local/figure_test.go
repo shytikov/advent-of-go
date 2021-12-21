@@ -4,11 +4,11 @@ import "testing"
 
 func TestDigitSubtract(t *testing.T) {
 	// Arrange
-	one := Digit{
+	one := Figure{
 		Segments: []rune{'c', 'f'},
 		Decoded:  1,
 	}
-	seven := Digit{
+	seven := Figure{
 		Segments: []rune{'a', 'c', 'f'},
 		Decoded:  7,
 	}
@@ -16,7 +16,7 @@ func TestDigitSubtract(t *testing.T) {
 	expected := []rune{'a'}
 
 	// Act
-	actual := seven.subtract(one)
+	actual := seven.Subtract(one)
 
 	// Assert
 	if len(actual) != len(expected) {
@@ -34,28 +34,28 @@ func TestDigitSubtract(t *testing.T) {
 
 func TestDigitContains(t *testing.T) {
 	// Arrange
-	one := Digit{
+	one := Figure{
 		Segments: []rune{'c', 'f'},
 		Decoded:  1,
 	}
-	four := Digit{
+	four := Figure{
 		Segments: []rune{'b', 'c', 'd', 'f'},
-		Decoded: 4,
+		Decoded:  4,
 	}
-	seven := Digit{
+	seven := Figure{
 		Segments: []rune{'a', 'c', 'f'},
 		Decoded:  7,
 	}
 
-	expected := []bool {
+	expected := []bool{
 		true,
 		false,
 	}
 
 	// Act
-	actual := []bool {
-		seven.contains(one),
-		four.contains(seven),
+	actual := []bool{
+		seven.Contains(one),
+		four.Contains(seven),
 	}
 
 	// Assert

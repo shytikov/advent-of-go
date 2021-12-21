@@ -28,8 +28,12 @@ func solvePuzzleA(input local.Data, result chan int) {
 
 	for i := 0; i < len(input); i++ {
 		for j := 0; j < len(input[i].Readings); j++ {
-			digit := input[i].Readings[j].Decoded
-			if digit == 1 || digit == 4 || digit == 7 || digit == 8 {
+			length := len(input[i].Readings[j])
+			// Digit `1` will lit up 2 segments
+			// Digit `7` will lit up 3 segments
+			// Digit `4` will lit up 4 segments
+			// Digit `8` will lit up all 7 segments
+			if length == 2 || length == 3 || length == 4 || length == 7 {
 				count++
 			}
 		}
@@ -42,13 +46,23 @@ func solvePuzzleB(input local.Data, result chan int) {
 	entries := append(local.Data(nil), input...)
 
 	for i := 0; i < len(entries); i++ {
-		a := entries[i].FindSegmentA()
-		g := entries[i].FindSegmentG(a)
+		// zero := local.Figure{}
+		one := entries[i].FindPatternsByLen(2)[0]
+		//four := entries[i].FindPatternsByLen(4)[0]
+		seven := entries[i].FindPatternsByLen(3)[0]
 
-		fmt.Println(entries[i].FindPatternsByLen(2))
-		fmt.Println(entries[i].FindPatternsByLen(3))
+		a := seven.Subtract(one)[0]
+
+		//nine := local.Figure{}
+		//
+		//for _, digit := range entries[i].FindPatternsByLen(6) {
+		//	if digit.Contains(four) {
+		//		nine = digit
+		//	}
+		//}
+
 		fmt.Println(a)
-		fmt.Println(g)
+		//fmt.Println(g)
 
 		break
 	}
