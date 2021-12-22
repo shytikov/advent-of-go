@@ -1,14 +1,11 @@
 package local
 
-type Vent struct {
-	From   Point
-	To     Point
-	Vector Point
-}
+import "github.com/shytikov/advent-of-go/shared"
 
-type Point struct {
-	X int
-	Y int
+type Vent struct {
+	From   shared.Point2D
+	To     shared.Point2D
+	Vector shared.Point2D
 }
 
 func (v Vent) IsOrthogonal() bool {

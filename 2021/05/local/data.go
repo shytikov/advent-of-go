@@ -10,8 +10,8 @@ import (
 
 type Data struct {
 	Vents []Vent
-	Min   Point
-	Max   Point
+	Min   shared.Point2D
+	Max   shared.Point2D
 }
 
 func Read(filename string) Data {
@@ -90,7 +90,7 @@ func parseData(content string) (result Data) {
 	return
 }
 
-func parsePoint(definition string) (result Point) {
+func parsePoint(definition string) (result shared.Point2D) {
 	chunks := strings.Split(definition, ",")
 
 	result.X, _ = strconv.Atoi(chunks[0])
@@ -115,8 +115,8 @@ func parseVent(definition string) (result Vent) {
 	return
 }
 
-func getDirection(from, to Point) (result Point) {
-	result = Point{1, 1}
+func getDirection(from, to shared.Point2D) (result shared.Point2D) {
+	result = shared.Point2D{X: 1, Y: 1}
 
 	if from.X > to.X {
 		result.X = -1
