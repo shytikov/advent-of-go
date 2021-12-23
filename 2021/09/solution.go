@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/shytikov/advent-of-go/2021/09/local"
 	"github.com/shytikov/advent-of-go/shared"
 )
@@ -24,7 +25,7 @@ func main() {
 }
 
 func solvePuzzleA(input local.Data, result chan int) {
-	_, heights := input.DetectLowPoints()
+	_, heights := input.DetectLowestPoints()
 
 	// Calculating risk. Risk = height of a point + one.
 	// But we can sum all heights and add as many ones as length of the height slice is
@@ -32,9 +33,13 @@ func solvePuzzleA(input local.Data, result chan int) {
 }
 
 func solvePuzzleB(input local.Data, result chan int) {
-	coordinates, _ := input.DetectLowPoints()
+	coordinates, _ := input.DetectLowestPoints()
 
-	input.DetectBasinSizes(coordinates)
+	sizes := input.DetectBasinSizes(coordinates)
 
-	result <- 0
+	//sort.Sort(sort.Reverse(sort.IntSlice(sizes)))
+
+	fmt.Println(sizes)
+
+	result <- sizes[0] * sizes[1] * sizes[2]
 }
