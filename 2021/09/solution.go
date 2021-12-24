@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/shytikov/advent-of-go/2021/09/local"
 	"github.com/shytikov/advent-of-go/shared"
@@ -37,9 +38,9 @@ func solvePuzzleB(input local.Data, result chan int) {
 
 	sizes := input.DetectBasinSizes(coordinates)
 
-	//sort.Sort(sort.Reverse(sort.IntSlice(sizes)))
+	sort.Sort(sort.Reverse(sort.IntSlice(sizes)))
 
-	fmt.Println(sizes)
+	//fmt.Println(sizes[:3])
 
-	result <- sizes[0] * sizes[1] * sizes[2]
+	result <- shared.ProductOf(sizes[:3])
 }

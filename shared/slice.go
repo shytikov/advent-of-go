@@ -12,6 +12,16 @@ func SumOf(slice []int) (result int) {
 	return
 }
 
+func ProductOf(slice []int) (result int) {
+	result = 1
+
+	for _, value := range slice {
+		result *= value
+	}
+
+	return
+}
+
 func MaxOf(slice []int) (result int) {
 	result = math.MinInt
 

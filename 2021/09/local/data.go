@@ -2,7 +2,6 @@ package local
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/shytikov/advent-of-go/shared"
 )
@@ -49,34 +48,35 @@ func (d Data) DetectLowestPoints() (coordinates []shared.Point2D, heights []int)
 func (d Data) DetectBasinSizes(coordinates []shared.Point2D) (result []int) {
 	result = make([]int, len(coordinates))
 
-	fmt.Println(coordinates)
-
 	for i, start := range coordinates {
 		queue := []shared.Point2D{start}
 		count := len(queue)
 
+		visited := map[string]bool{
+			fmt.Sprintf("%v,%v", start.X, start.Y): true,
+		}
+
 		for j := 0; j < len(queue); j++ {
 			point := queue[j]
-			visited := fmt.Sprintf("(%s,%s)", point.X, point.Y)
 
 			for _, vector := range directions {
 				x, y := point.X+vector.X, point.Y+vector.Y
 
 				// We're not checking outside the boundaries. Boundaries are walls.
 				if x >= 0 && y >= 0 && x < len(d) && y < len(d[0]) {
-					current := fmt.Sprintf("(%s,%s)", x, y)
-					if d[x][y] < 9 && !strings.Contains(visited, current) {
-						//fmt.Println(x, y, len(queue))
-						queue = append(queue, shared.Point2D{X: x, Y: y})
-						visited += current
+					current := fmt.Sprintf("%v,%v", x, y)
+					_, found := visited[current]
+
+					if d[x][y] < 9 && !found {
+						queue = append(queue, shared.Point2D{x, y})
+						visited[current] = true
 						count++
-						//fmt.Println(x, y, len(queue))
 					}
 				}
 			}
 		}
+
 		result[i] = count
-		break
 	}
 
 	return
