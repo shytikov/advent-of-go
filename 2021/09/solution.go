@@ -40,7 +40,5 @@ func solvePuzzleB(input local.Data, result chan int) {
 
 	sort.Sort(sort.Reverse(sort.IntSlice(sizes)))
 
-	//fmt.Println(sizes[:3])
-
 	result <- shared.ProductOf(sizes[:3])
 }

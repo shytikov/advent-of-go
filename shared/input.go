@@ -67,6 +67,29 @@ func readIntSlicesFromRuneSlices(content string) (result [][]int) {
 	return
 }
 
+func ReadRuneSlicesFromLines(filename string) (result [][]rune) {
+	content, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return nil
+	}
+
+	result = readRuneSlicesFromLines(string(content))
+
+	if result == nil || len(result) == 0 {
+		return nil
+	}
+
+	return
+}
+
+func readRuneSlicesFromLines(content string) (result [][]rune) {
+	for _, line := range strings.Split(content, "\n") {
+		result = append(result, []rune(strings.TrimSpace(line)))
+	}
+
+	return
+}
+
 func ReadIntSlicesFromLines(filename string) (result [][]int) {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -82,7 +105,7 @@ func ReadIntSlicesFromLines(filename string) (result [][]int) {
 	return
 }
 
-func readIntSlicesFromLines (content string) (result [][]int) {
+func readIntSlicesFromLines(content string) (result [][]int) {
 	for _, line := range strings.Split(content, "\n") {
 		line = strings.TrimSpace(line)
 		chunks := strings.Split(line, ",")

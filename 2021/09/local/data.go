@@ -51,17 +51,17 @@ func (d Data) DetectBasinSizes(coordinates []shared.Point2D) (result []int) {
 
 	var wg sync.WaitGroup
 
-	for i, start := range coordinates {
+	for i, coordinate := range coordinates {
 		wg.Add(1)
 
-		go func(index int, start shared.Point2D) {
+		go func(index int, lowest shared.Point2D) {
 			defer wg.Done()
 
-			queue := []shared.Point2D{start}
+			queue := []shared.Point2D{lowest}
 			count := len(queue)
 
 			visited := map[string]bool{
-				fmt.Sprintf("%v,%v", start.X, start.Y): true,
+				fmt.Sprintf("%v,%v", lowest.X, lowest.Y): true,
 			}
 
 			for j := 0; j < len(queue); j++ {
@@ -85,7 +85,7 @@ func (d Data) DetectBasinSizes(coordinates []shared.Point2D) (result []int) {
 			}
 
 			result[index] = count
-		}(i, start)
+		}(i, coordinate)
 	}
 
 	wg.Wait()

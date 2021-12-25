@@ -4,6 +4,7 @@ import (
 	"math"
 )
 
+// SumOf returns sum of all numbers in the slice
 func SumOf(slice []int) (result int) {
 	for _, value := range slice {
 		result += value
@@ -12,6 +13,7 @@ func SumOf(slice []int) (result int) {
 	return
 }
 
+// ProductOf returns product of multipliication of all numbers in the slice
 func ProductOf(slice []int) (result int) {
 	result = 1
 
