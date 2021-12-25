@@ -49,6 +49,10 @@ func ReadIntSlicesFromRuneSlices(filename string) (result [][]int) {
 func readIntSlicesFromRuneSlices(content string) (result [][]int) {
 	for _, line := range strings.Split(content, "\n") {
 		line = strings.TrimSpace(line)
+		if len(line) == 0 {
+			continue
+		}
+
 		chars := []rune(line)
 		serie := make([]int, len(chars))
 		for i, char := range chars {
@@ -84,7 +88,12 @@ func ReadRuneSlicesFromLines(filename string) (result [][]rune) {
 
 func readRuneSlicesFromLines(content string) (result [][]rune) {
 	for _, line := range strings.Split(content, "\n") {
-		result = append(result, []rune(strings.TrimSpace(line)))
+		line = strings.TrimSpace(line)
+		if len(line) == 0 {
+			continue
+		}
+
+		result = append(result, []rune(line))
 	}
 
 	return
