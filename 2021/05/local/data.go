@@ -1,17 +1,18 @@
 package local
 
 import (
-	"github.com/shytikov/advent-of-go/shared"
 	"io/ioutil"
 	"strconv"
 	"strings"
 	"sync"
+
+	"github.com/shytikov/advent-of-go/shared"
 )
 
 type Data struct {
 	Vents []Vent
-	Min   shared.Point2D
-	Max   shared.Point2D
+	Min   shared.Point
+	Max   shared.Point
 }
 
 func Read(filename string) Data {
@@ -90,7 +91,7 @@ func parseData(content string) (result Data) {
 	return
 }
 
-func parsePoint(definition string) (result shared.Point2D) {
+func parsePoint(definition string) (result shared.Point) {
 	chunks := strings.Split(definition, ",")
 
 	result.X, _ = strconv.Atoi(chunks[0])
@@ -115,8 +116,8 @@ func parseVent(definition string) (result Vent) {
 	return
 }
 
-func getDirection(from, to shared.Point2D) (result shared.Point2D) {
-	result = shared.Point2D{X: 1, Y: 1}
+func getDirection(from, to shared.Point) (result shared.Point) {
+	result = shared.Point{X: 1, Y: 1}
 
 	if from.X > to.X {
 		result.X = -1

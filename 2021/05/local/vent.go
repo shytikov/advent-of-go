@@ -3,9 +3,9 @@ package local
 import "github.com/shytikov/advent-of-go/shared"
 
 type Vent struct {
-	From   shared.Point2D
-	To     shared.Point2D
-	Vector shared.Point2D
+	From   shared.Point
+	To     shared.Point
+	Vector shared.Point
 }
 
 func (v Vent) IsOrthogonal() bool {

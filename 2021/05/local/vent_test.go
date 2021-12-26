@@ -1,18 +1,19 @@
 package local
 
 import (
-	"github.com/shytikov/advent-of-go/shared"
 	"testing"
+
+	"github.com/shytikov/advent-of-go/shared"
 )
 
 func TestIsOrthogonal(t *testing.T) {
 	// Arrange
 	vent := Vent{
-		From: shared.Point2D{
+		From: shared.Point{
 			X: 599,
 			Y: 531,
 		},
-		To: shared.Point2D{
+		To: shared.Point{
 			X: 599,
 			Y: 32,
 		},

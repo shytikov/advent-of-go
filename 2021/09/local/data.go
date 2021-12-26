@@ -10,21 +10,21 @@ import (
 type Data [][]int
 
 // Vectors to adjacent locations
-var directions = []shared.Point2D{
+var directions = []shared.Point{
 	{0, 1},
 	{0, -1},
 	{1, 0},
 	{-1, 0},
 }
 
-func (d Data) DetectLowestPoints() (coordinates []shared.Point2D, heights []int) {
+func (d Data) DetectLowestPoints() (coordinates []shared.Point, heights []int) {
 	// Iterating through lines
 	for i := 0; i < len(d); i++ {
 		// Iterating through columns
 		for j := 0; j < len(d[i]); j++ {
 			// Flag indicating that we have found the lowest location
 			lowest := true
-			coordinate, height := shared.Point2D{X: i, Y: j}, d[i][j]
+			coordinate, height := shared.Point{X: i, Y: j}, d[i][j]
 
 			for _, vector := range directions {
 				x, y := i+vector.X, j+vector.Y
@@ -46,7 +46,7 @@ func (d Data) DetectLowestPoints() (coordinates []shared.Point2D, heights []int)
 	return
 }
 
-func (d Data) DetectBasinSizes(coordinates []shared.Point2D) (result []int) {
+func (d Data) DetectBasinSizes(coordinates []shared.Point) (result []int) {
 	result = make([]int, len(coordinates))
 
 	var wg sync.WaitGroup
@@ -54,10 +54,10 @@ func (d Data) DetectBasinSizes(coordinates []shared.Point2D) (result []int) {
 	for i, coordinate := range coordinates {
 		wg.Add(1)
 
-		go func(index int, lowest shared.Point2D) {
+		go func(index int, lowest shared.Point) {
 			defer wg.Done()
 
-			queue := []shared.Point2D{lowest}
+			queue := []shared.Point{lowest}
 			count := len(queue)
 
 			visited := map[string]bool{
@@ -76,7 +76,7 @@ func (d Data) DetectBasinSizes(coordinates []shared.Point2D) (result []int) {
 						_, found := visited[current]
 
 						if d[x][y] < 9 && !found {
-							queue = append(queue, shared.Point2D{x, y})
+							queue = append(queue, shared.Point{x, y})
 							visited[current] = true
 							count++
 						}

@@ -1,7 +1,8 @@
 package shared
 
-// Point2D handly data structure to represent a point in two-dimensional space
-type Point2D struct {
+// Point handly data structure to represent a point in two-dimensional space
+type Point struct {
 	X int
 	Y int
+	Z int
 }

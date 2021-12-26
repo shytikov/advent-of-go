@@ -1,15 +1,16 @@
 package local
 
 import (
-	"github.com/shytikov/advent-of-go/shared"
 	"testing"
+
+	"github.com/shytikov/advent-of-go/shared"
 )
 
 func TestParsePoint(t *testing.T) {
 	// Arrange
 	definition := "599,531"
 
-	expected := shared.Point2D{
+	expected := shared.Point{
 		X: 599,
 		Y: 531,
 	}
@@ -32,11 +33,11 @@ func TestParseVent(t *testing.T) {
 	definition := "599,531 -> 599,32"
 
 	expected := Vent{
-		From: shared.Point2D{
+		From: shared.Point{
 			X: 599,
 			Y: 531,
 		},
-		To: shared.Point2D{
+		To: shared.Point{
 			X: 599,
 			Y: 32,
 		},
@@ -77,9 +78,9 @@ func TestParseData(t *testing.T) {
 		0,0 -> 8,8
 		5,5 -> 8,2`
 
-	expectedMin := shared.Point2D{}
+	expectedMin := shared.Point{}
 
-	expectedMax := shared.Point2D{
+	expectedMax := shared.Point{
 		X: 9,
 		Y: 9,
 	}
