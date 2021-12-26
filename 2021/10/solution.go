@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/shytikov/advent-of-go/shared"
@@ -25,9 +26,7 @@ func main() {
 }
 
 func solvePuzzleA(input [][]rune, result chan int) {
-	// Collection of lookup objects: for opening, closing braces and their costs
-	opening := "([{<"
-	closing := ")]}>"
+	corrupted, _ := split(input)
 	cost := map[rune]int{
 		')': 3,
 		']': 57,
@@ -36,6 +35,43 @@ func solvePuzzleA(input [][]rune, result chan int) {
 	}
 
 	total := 0
+
+	for _, current := range corrupted {
+		total += cost[current]
+	}
+
+	result <- total
+}
+
+func solvePuzzleB(input [][]rune, result chan int) {
+	_, incomplete := split(input)
+	cost := map[rune]int{
+		')': 1,
+		']': 2,
+		'}': 3,
+		'>': 4,
+	}
+
+	scores := make([]int, len(incomplete))
+
+	for i, current := range incomplete {
+		total := 0
+		for _, item := range current {
+			total *= 5
+			total += cost[item]
+		}
+		scores[i] = total
+	}
+
+	sort.Ints(scores)
+
+	result <- scores[(len(scores)-1)/2]
+}
+
+func split(input [][]rune) (corrupted []rune, incomplete []string) {
+	// Collection of lookup objects: for opening, closing braces
+	opening := "([{<"
+	closing := ")]}>"
 
 	for _, readings := range input {
 		// Stack to keep track of braces that should come next
@@ -52,15 +88,16 @@ func solvePuzzleA(input [][]rune, result chan int) {
 				// as it matches with the first item in stack
 				stack = stack[1:]
 			} else if rune(stack[0]) != current {
-				total += cost[current]
+				corrupted = append(corrupted, current)
+				stack = ""
 				break
 			}
 		}
+
+		if len(stack) != 0 {
+			incomplete = append(incomplete, stack)
+		}
 	}
 
-	result <- total
-}
-
-func solvePuzzleB(input [][]rune, result chan int) {
-	result <- 0
+	return
 }
