@@ -26,16 +26,16 @@ func main() {
 }
 
 func solvePuzzleA(input local.Data, result chan int) {
-	sum, count := 0, 0
+	points := input.DetectLowestPoints()
+	sum := 0
 
-	for _, coordinate := range input.DetectLowestPoints() {
+	for _, coordinate := range points {
 		sum += coordinate.Value
-		count++
 	}
 
 	// Calculating risk. Risk = height of a point + one.
 	// But we can sum all heights and add as many ones as length of the height slice is
-	result <- sum + count
+	result <- sum + len(points)
 }
 
 func solvePuzzleB(input local.Data, result chan int) {
