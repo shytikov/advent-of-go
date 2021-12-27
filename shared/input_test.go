@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestReadIntSliceFromRuneSlice(t *testing.T) {
+func TestReadIntGrid(t *testing.T) {
 	// Arrange
 	content :=
 		`010101110000
@@ -36,7 +36,7 @@ func TestReadIntSliceFromRuneSlice(t *testing.T) {
 	}
 
 	// Act
-	actual := readIntSlicesFromRuneSlices(content)
+	actual := readIntGrid(content)
 
 	// Assert
 	for i := 0; i < len(expected); i++ {

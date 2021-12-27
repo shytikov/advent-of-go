@@ -29,15 +29,15 @@ func ReadIntFromLine(filename string) (result []int) {
 	return
 }
 
-// ReadIntSlicesFromRuneSlices will read file and will treat each line as slice of runes
+// ReadIntGrid will read file and will treat each line as slice of runes
 // Each rune then will be converted to integer
-func ReadIntSlicesFromRuneSlices(filename string) (result [][]int) {
+func ReadIntGrid(filename string) (result [][]int) {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil
 	}
 
-	result = readIntSlicesFromRuneSlices(string(content))
+	result = readIntGrid(string(content))
 
 	if result == nil || len(result) == 0 {
 		return nil
@@ -46,7 +46,7 @@ func ReadIntSlicesFromRuneSlices(filename string) (result [][]int) {
 	return
 }
 
-func readIntSlicesFromRuneSlices(content string) (result [][]int) {
+func readIntGrid(content string) (result [][]int) {
 	for _, line := range strings.Split(content, "\n") {
 		line = strings.TrimSpace(line)
 		if len(line) == 0 {

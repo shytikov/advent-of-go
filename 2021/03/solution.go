@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/shytikov/advent-of-go/shared"
 )
 
 func main() {
-	input := shared.ReadIntSlicesFromRuneSlices("./input.txt")
+	input := shared.ReadIntGrid("./input.txt")
 
 	if input != nil {
 		resultA := make(chan int)

@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	input := local.Data(shared.ReadIntSlicesFromRuneSlices("./input.txt"))
+	input := shared.ReadIntGrid("./input.txt")
 
 	if input != nil && len(input) > 0 {
 		resultA := make(chan int)
