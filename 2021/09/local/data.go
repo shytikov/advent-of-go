@@ -11,20 +11,24 @@ type Data [][]int
 
 // Vectors to adjacent locations
 var directions = []shared.Point{
-	{0, 1},
-	{0, -1},
-	{1, 0},
-	{-1, 0},
+	{0, 1, 0},
+	{0, -1, 0},
+	{1, 0, 0},
+	{-1, 0, 0},
 }
 
-func (d Data) DetectLowestPoints() (coordinates []shared.Point, heights []int) {
+func (d Data) DetectLowestPoints() (result []shared.Point) {
 	// Iterating through lines
 	for i := 0; i < len(d); i++ {
 		// Iterating through columns
 		for j := 0; j < len(d[i]); j++ {
 			// Flag indicating that we have found the lowest location
 			lowest := true
-			coordinate, height := shared.Point{X: i, Y: j}, d[i][j]
+			coordinate := shared.Point{
+				X: i,
+				Y: j,
+				Z: d[i][j],
+			}
 
 			for _, vector := range directions {
 				x, y := i+vector.X, j+vector.Y
@@ -32,13 +36,12 @@ func (d Data) DetectLowestPoints() (coordinates []shared.Point, heights []int) {
 				// We're not checking outside the boundaries. Boundaries are walls.
 				// We assume our lever is lower than any wall we encounter
 				if x >= 0 && y >= 0 && x < len(d) && y < len(d[i]) {
-					lowest = lowest && height < d[x][y]
+					lowest = lowest && coordinate.Z < d[x][y]
 				}
 			}
 
 			if lowest {
-				coordinates = append(coordinates, coordinate)
-				heights = append(heights, height)
+				result = append(result, coordinate)
 			}
 		}
 	}
@@ -76,7 +79,7 @@ func (d Data) DetectBasinSizes(coordinates []shared.Point) (result []int) {
 						_, found := visited[current]
 
 						if d[x][y] < 9 && !found {
-							queue = append(queue, shared.Point{x, y})
+							queue = append(queue, shared.Point{x, y, d[x][y]})
 							visited[current] = true
 							count++
 						}

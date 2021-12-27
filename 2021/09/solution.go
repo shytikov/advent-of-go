@@ -26,17 +26,20 @@ func main() {
 }
 
 func solvePuzzleA(input local.Data, result chan int) {
-	_, heights := input.DetectLowestPoints()
+	sum, count := 0, 0
+
+	for _, coordinate := range input.DetectLowestPoints() {
+		sum += coordinate.Z
+		count++
+	}
 
 	// Calculating risk. Risk = height of a point + one.
 	// But we can sum all heights and add as many ones as length of the height slice is
-	result <- shared.SumOf(heights) + len(heights)
+	result <- sum + count
 }
 
 func solvePuzzleB(input local.Data, result chan int) {
-	coordinates, _ := input.DetectLowestPoints()
-
-	sizes := input.DetectBasinSizes(coordinates)
+	sizes := input.DetectBasinSizes(input.DetectLowestPoints())
 
 	sort.Sort(sort.Reverse(sort.IntSlice(sizes)))
 
