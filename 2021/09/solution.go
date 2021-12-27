@@ -29,7 +29,7 @@ func solvePuzzleA(input local.Data, result chan int) {
 	sum, count := 0, 0
 
 	for _, coordinate := range input.DetectLowestPoints() {
-		sum += coordinate.Z
+		sum += coordinate.Value
 		count++
 	}
 
