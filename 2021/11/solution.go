@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	input := shared.ReadRuneSlicesFromLines("./input.txt")
+	input := shared.ReadIntGrid("./input.txt")
 
 	if input != nil && len(input) > 0 {
 		resultA := make(chan int)
@@ -23,10 +23,12 @@ func main() {
 	}
 }
 
-func solvePuzzleA(input [][]rune, result chan int) {
+func solvePuzzleA(input [][]int, result chan int) {
 	result <- 0
 }
 
-func solvePuzzleB(input [][]rune, result chan int) {
+func solvePuzzleB(input [][]int, result chan int) {
 	result <- 0
 }
+
+func modelStep bn
