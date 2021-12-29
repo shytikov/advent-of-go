@@ -30,7 +30,7 @@ func solvePuzzleA(input local.Data, result chan int) {
 	sum := 0
 
 	for _, coordinate := range points {
-		sum += coordinate.Value
+		sum += coordinate.Z
 	}
 
 	// Calculating risk. Risk = height of a point + one.

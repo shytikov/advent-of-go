@@ -11,10 +11,10 @@ type Data [][]int
 
 // Vectors to adjacent locations
 var directions = []shared.Point{
-	{0, 1, 0},
-	{0, -1, 0},
-	{1, 0, 0},
-	{-1, 0, 0},
+	{X: 0, Y: 1},
+	{X: 0, Y: -1},
+	{X: 1, Y: 0},
+	{X: -1, Y: 0},
 }
 
 func (d Data) DetectLowestPoints() (result []shared.Point) {
@@ -25,9 +25,9 @@ func (d Data) DetectLowestPoints() (result []shared.Point) {
 			// Flag indicating that we have found the lowest location
 			lowest := true
 			coordinate := shared.Point{
-				X:     i,
-				Y:     j,
-				Value: d[i][j],
+				X: i,
+				Y: j,
+				Z: d[i][j],
 			}
 
 			for _, vector := range directions {
@@ -36,7 +36,7 @@ func (d Data) DetectLowestPoints() (result []shared.Point) {
 				// We're not checking outside the boundaries. Boundaries are walls.
 				// We assume our lever is lower than any wall we encounter
 				if x >= 0 && y >= 0 && x < len(d) && y < len(d[i]) {
-					lowest = lowest && coordinate.Value < d[x][y]
+					lowest = lowest && coordinate.Z < d[x][y]
 				}
 			}
 
