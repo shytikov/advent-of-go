@@ -1,6 +1,10 @@
 package local
 
-import "github.com/shytikov/advent-of-go/shared"
+import (
+	"fmt"
+
+	"github.com/shytikov/advent-of-go/shared"
+)
 
 type Data [][]int
 
@@ -10,16 +14,20 @@ func (d Data) CreateChain() (result Chain) {
 
 	for i := 0; i < lenX; i++ {
 		for j := 0; j < lenY; j++ {
-			result[i*(lenX-1)+j] = Node{
-				root:     shared.Point{i, j, d[i][j]},
-				children: make([]*Node, d.getChildrenCount(i, j)),
-			}
+			root := shared.Point{i, j, d[i][j]}
+			children := make([]*Node, d.getChildrenCount(i, j))
+
+			result[d.getLinkIndex(i, j)] = Node{root, children}
 		}
 	}
 
 	result.assembleChildren(lenX, lenY)
 
 	return
+}
+
+func (d Data) getLinkIndex(x, y int) int {
+	return x*len(d) + y
 }
 
 func (d Data) getChildrenCount(x, y int) (result int) {
@@ -49,6 +57,33 @@ func (d Data) getChildrenCount(x, y int) (result int) {
 		// If we use bitwise opetations, to get correct result
 		// (as we mentioned previously), we need to add 1
 		result++
+	}
+
+	return
+}
+
+func (d Data) getChildrenIndexes(i, j int) (result []int) {
+	result = make([]int, d.getChildrenCount(i, j))
+
+	lenX, lenY := len(d), len(d[0])
+
+	vector := []shared.Point{
+		{1, 0, 0},
+		{1, 1, 0},
+		{0, 1, 0},
+		{0, -1, 0},
+		{-1, 1, 0},
+		{-1, 0, 0},
+		{-1, -1, 0},
+	}
+
+	for k, direction := range vector {
+		x, y := i-direction.X, j-direction.Y
+		if x >= 0 && x < lenX && y >= 0 && y < lenY {
+			z := x*lenX + y
+			fmt.Println(x, y, z, k)
+			//result[k] = x*(lenX-1) + y
+		}
 	}
 
 	return
