@@ -83,12 +83,15 @@ func TestDataGetChildrenIndexes(t *testing.T) {
 	}
 
 	expected := map[int][]int{
-		0: []int{1, 10, 11},
+		0:  []int{1, 10, 11},
+		1:  []int{0, 2, 10, 11, 12},
+		11: []int{0, 1, 2, 10, 12, 20, 21, 22},
 	}
 
 	// Act
 	actual := map[int][]int{
 		0: data.getChildrenIndexes(0, 0),
+		1: data.getChildrenIndexes(0, 1),
 	}
 
 	// Assert
@@ -97,17 +100,14 @@ func TestDataGetChildrenIndexes(t *testing.T) {
 			t.Errorf("Result was incorrect, lengths don't match, got: %v, want: %v", len(v), len(expected[k]))
 			return
 		}
-	}
 
-	// for i := 0; i < lenX; i++ {
-	// 	for j := 0; j < lenY; j++ {
-	// 		length := data.getChildrenCount(i, j)
-	// 		if length != data[i][j] {
-	// 			t.Errorf("Result was incorrect for index (%v,%v), got: %v, want: %v", i, j, length, data[i][j])
-	// 			return
-	// 		}
-	// 	}
-	// }
+		for i, item := range v {
+			if item != expected[k][i] {
+				t.Errorf("Result was incorrect, elements don't match for index %v, got: %v, want: %v", k, v, expected[k])
+				return
+			}
+		}
+	}
 }
 
 func TestDataGetLinkIndex(t *testing.T) {

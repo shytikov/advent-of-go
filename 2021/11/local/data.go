@@ -1,7 +1,7 @@
 package local
 
 import (
-	"fmt"
+	"sort"
 
 	"github.com/shytikov/advent-of-go/shared"
 )
@@ -77,14 +77,17 @@ func (d Data) getChildrenIndexes(i, j int) (result []int) {
 		{-1, -1, 0},
 	}
 
-	for k, direction := range vector {
+	count := 0
+
+	for _, direction := range vector {
 		x, y := i-direction.X, j-direction.Y
 		if x >= 0 && x < lenX && y >= 0 && y < lenY {
-			z := x*lenX + y
-			fmt.Println(x, y, z, k)
-			//result[k] = x*(lenX-1) + y
+			result[count] = d.getLinkIndex(x, y)
+			count++
 		}
 	}
+
+	sort.Ints(result)
 
 	return
 }
