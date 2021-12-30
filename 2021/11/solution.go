@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/shytikov/advent-of-go/2021/11/local"
 	"github.com/shytikov/advent-of-go/shared"
 )
 
@@ -23,12 +24,14 @@ func main() {
 	}
 }
 
-func solvePuzzleA(input [][]int, result chan int) {
+func solvePuzzleA(input local.Data, result chan int) {
+	chain := input.CreateChain()
+
+	fmt.Println(chain)
+	fmt.Println(8 >> 1)
 	result <- 0
 }
 
-func solvePuzzleB(input [][]int, result chan int) {
+func solvePuzzleB(input local.Data, result chan int) {
 	result <- 0
 }
-
-func modelStep bn

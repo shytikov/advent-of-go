@@ -15,13 +15,16 @@ func (d Data) CreateChain() (result Chain) {
 	for i := 0; i < lenX; i++ {
 		for j := 0; j < lenY; j++ {
 			root := shared.Point{i, j, d[i][j]}
-			children := make([]*Node, d.getChildrenCount(i, j))
+			indexes := d.getChildrenIndexes(i, j)
+			children := make([]*Node, len(indexes))
+
+			for k, index := range indexes {
+				children[k] = &result[index]
+			}
 
 			result[d.getLinkIndex(i, j)] = Node{root, children}
 		}
 	}
-
-	result.assembleChildren(lenX, lenY)
 
 	return
 }
