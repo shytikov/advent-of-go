@@ -19,14 +19,14 @@ func TestDataCreateChain(t *testing.T) {
 		{5, 2, 8, 3, 7, 5, 1, 5, 2, 6},
 	}
 
-	expected := make([]Node, len(data)*len(data[0]))
+	expectedLength := len(data) * len(data[0])
 
 	// Act
 	actual := data.CreateChain()
 
 	// Assert
-	if len(actual) != len(expected) {
-		t.Errorf("Result was incorrect, lengths don't match, got: %v, want: %v", len(actual), len(expected))
+	if len(actual) != expectedLength {
+		t.Errorf("Result was incorrect, lengths don't match, got: %v, want: %v", len(actual), expectedLength)
 		return
 	}
 
