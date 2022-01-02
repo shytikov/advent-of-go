@@ -22,7 +22,7 @@ func TestDataCreateChain(t *testing.T) {
 	expectedLength := len(data) * len(data[0])
 
 	// Act
-	actual := data.CreateChain()
+	actual := data.CreateCavern()
 
 	// Assert
 	if len(actual) != expectedLength {
@@ -58,7 +58,7 @@ func TestDataGetChildrenCount(t *testing.T) {
 	// Assert
 	for i := 0; i < lenX; i++ {
 		for j := 0; j < lenY; j++ {
-			length := expected.getChildrenCount(i, j)
+			length := expected.getNeighboursCount(i, j)
 			if length != expected[i][j] {
 				t.Errorf("Result was incorrect for index (%v,%v), got: %v, want: %v", i, j, length, expected[i][j])
 				return
@@ -134,7 +134,7 @@ func TestDataGetLinkIndex(t *testing.T) {
 
 		actual[i] = make([]int, lenY)
 		for j := 0; j < lenY; j++ {
-			actual[i][j] = expected.getLinkIndex(i, j)
+			actual[i][j] = expected.getOctopusIndex(i, j)
 		}
 	}
 
