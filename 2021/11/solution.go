@@ -25,8 +25,8 @@ func main() {
 }
 
 func solvePuzzleA(input local.Data, result chan int) {
-	count := 0
 	cavern := input.CreateArea()
+	count := 0
 
 	for i := 0; i < 100; i++ {
 		count += cavern.AccumulateCharge()
@@ -36,5 +36,18 @@ func solvePuzzleA(input local.Data, result chan int) {
 }
 
 func solvePuzzleB(input local.Data, result chan int) {
-	result <- 0
+	cavern := input.CreateArea()
+
+	size := len(cavern)
+	step := 0
+
+	for {
+		step++
+
+		if cavern.AccumulateCharge() == size {
+			break
+		}
+	}
+
+	result <- step
 }
