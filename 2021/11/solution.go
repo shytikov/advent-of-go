@@ -25,11 +25,14 @@ func main() {
 }
 
 func solvePuzzleA(input local.Data, result chan int) {
-	chain := input.CreateChain()
+	count := 0
+	cavern := input.CreateArea()
 
-	fmt.Println(chain)
-	fmt.Println(8 >> 1)
-	result <- 0
+	for i := 0; i < 100; i++ {
+		count += cavern.AccumulateCharge()
+	}
+
+	result <- count
 }
 
 func solvePuzzleB(input local.Data, result chan int) {
