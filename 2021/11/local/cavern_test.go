@@ -73,29 +73,29 @@ func TestCavernAccumulateCharge(t *testing.T) {
 		{1, 1, 1, 1, 1},
 	}
 	expected := []int{0, 9, 0}
-	chain := data.CreateCavern()
+	cavern := data.CreateCavern()
 
 	// Act
 	actual := make([]int, len(expected))
-	actual[0] = chain.getFlashesCount()
+	actual[0] = cavern.getFlashesCount()
 
-	for _, row := range chain.createGrid() {
+	for _, row := range cavern.createGrid() {
 		fmt.Println(row)
 	}
 
 	fmt.Println()
 
-	actual[1] = chain.AccumulateCharge()
+	actual[1] = cavern.AccumulateCharge()
 
-	for _, row := range chain.createGrid() {
+	for _, row := range cavern.createGrid() {
 		fmt.Println(row)
 	}
 
 	fmt.Println()
 
-	actual[2] = chain.AccumulateCharge()
+	actual[2] = cavern.AccumulateCharge()
 
-	for _, row := range chain.createGrid() {
+	for _, row := range cavern.createGrid() {
 		fmt.Println(row)
 	}
 

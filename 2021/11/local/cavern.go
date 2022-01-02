@@ -42,9 +42,8 @@ func (c Cavern) getFlashesCount() (result int) {
 }
 
 func (c *Cavern) AccumulateCharge() int {
-	for _, link := range *c {
-		link.charge()
-	}
+	// for _, octopus := range *c {
+	// }
 
 	return c.getFlashesCount()
 }

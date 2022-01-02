@@ -15,7 +15,7 @@ func (d Data) CreateCavern() (result Cavern) {
 	for i := 0; i < lenX; i++ {
 		for j := 0; j < lenY; j++ {
 			root := &shared.Point{i, j, d[i][j]}
-			indexes := d.getChildrenIndexes(i, j)
+			indexes := d.getNeighboursIndexes(i, j)
 			children := make([]*Octopus, len(indexes))
 
 			for k, index := range indexes {
@@ -65,19 +65,20 @@ func (d Data) getNeighboursCount(x, y int) (result int) {
 	return
 }
 
-func (d Data) getChildrenIndexes(i, j int) (result []int) {
+func (d Data) getNeighboursIndexes(i, j int) (result []int) {
 	result = make([]int, d.getNeighboursCount(i, j))
 
 	lenX, lenY := len(d), len(d[0])
 
 	vector := []shared.Point{
-		{1, 0, 0},
-		{1, 1, 0},
-		{0, 1, 0},
-		{0, -1, 0},
-		{-1, 1, 0},
-		{-1, 0, 0},
-		{-1, -1, 0},
+		{-1, -1, 0}, // Up-Left
+		{-1, 0, 0},  // Up-Middle
+		{-1, 1, 0},  // Up-Right
+		{0, -1, 0},  // Center-Left
+		{0, 1, 0},   // Center-Right
+		{1, -1, 0},  // Down-left
+		{1, 0, 0},   // Down-Middle
+		{1, 1, 0},   // Down-Right
 	}
 
 	count := 0

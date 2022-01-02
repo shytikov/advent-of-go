@@ -38,7 +38,7 @@ func TestDataCreateChain(t *testing.T) {
 	// }
 }
 
-func TestDataGetChildrenCount(t *testing.T) {
+func TestDataGetNeighboursCount(t *testing.T) {
 	// Arrange
 	expected := Data{
 		{3, 5, 5, 5, 5, 5, 5, 5, 5, 3},
@@ -67,7 +67,7 @@ func TestDataGetChildrenCount(t *testing.T) {
 	}
 }
 
-func TestDataGetChildrenIndexes(t *testing.T) {
+func TestDataGetNeighboursIndexes(t *testing.T) {
 	// Arrange
 	data := Data{
 		{0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
@@ -86,12 +86,15 @@ func TestDataGetChildrenIndexes(t *testing.T) {
 		0:  []int{1, 10, 11},
 		1:  []int{0, 2, 10, 11, 12},
 		11: []int{0, 1, 2, 10, 12, 20, 21, 22},
+		88: []int{77, 78, 79, 87, 89, 97, 98, 99},
 	}
 
 	// Act
 	actual := map[int][]int{
-		0: data.getChildrenIndexes(0, 0),
-		1: data.getChildrenIndexes(0, 1),
+		0:  data.getNeighboursIndexes(0, 0),
+		1:  data.getNeighboursIndexes(0, 1),
+		11: data.getNeighboursIndexes(1, 1),
+		88: data.getNeighboursIndexes(8, 8),
 	}
 
 	// Assert
@@ -103,14 +106,14 @@ func TestDataGetChildrenIndexes(t *testing.T) {
 
 		for i, item := range v {
 			if item != expected[k][i] {
-				t.Errorf("Result was incorrect, elements don't match for index %v, got: %v, want: %v", k, v, expected[k])
+				t.Errorf("Result was incorrect, neighbours don't match for index %v, got: %v, want: %v", k, v, expected[k])
 				return
 			}
 		}
 	}
 }
 
-func TestDataGetLinkIndex(t *testing.T) {
+func TestDataGetOctopusIndex(t *testing.T) {
 	// Arrange
 	expected := Data{
 		{0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
