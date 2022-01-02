@@ -8,21 +8,29 @@ import (
 
 type Data [][]int
 
-func (d Data) CreateCavern() (result Cavern) {
+func (d Data) CreateArea() (result Area) {
 	lenX, lenY := len(d), len(d[0])
-	result = make(Cavern, lenX*lenY)
+	result = make(Area, lenX*lenY)
 
 	for i := 0; i < lenX; i++ {
 		for j := 0; j < lenY; j++ {
-			root := &shared.Point{i, j, d[i][j]}
-			indexes := d.getNeighboursIndexes(i, j)
-			children := make([]*Octopus, len(indexes))
+			result[d.getOctopusIndex(i, j)] = &Octopus{
+				position: shared.Point{i, j, d[i][j]},
+				flashed:  false,
+			}
+		}
+	}
+
+	for i := 0; i < lenX; i++ {
+		for j := 0; j < lenY; j++ {
+			indexes := d.getNeighbourIndexes(i, j)
+			neighbours := make(Area, len(indexes))
 
 			for k, index := range indexes {
-				children[k] = &result[index]
+				neighbours[k] = result[index]
 			}
 
-			result[d.getOctopusIndex(i, j)] = Octopus{root, children, false}
+			result[d.getOctopusIndex(i, j)].neighbours = neighbours
 		}
 	}
 
@@ -33,7 +41,7 @@ func (d Data) getOctopusIndex(x, y int) int {
 	return x*len(d) + y
 }
 
-func (d Data) getNeighboursCount(x, y int) (result int) {
+func (d Data) getNeighbourCount(x, y int) (result int) {
 	lenX, lenY := len(d), len(d[0])
 
 	// Maximum possible size of children (neighbors) is 8
@@ -65,8 +73,8 @@ func (d Data) getNeighboursCount(x, y int) (result int) {
 	return
 }
 
-func (d Data) getNeighboursIndexes(i, j int) (result []int) {
-	result = make([]int, d.getNeighboursCount(i, j))
+func (d Data) getNeighbourIndexes(i, j int) (result []int) {
+	result = make([]int, d.getNeighbourCount(i, j))
 
 	lenX, lenY := len(d), len(d[0])
 

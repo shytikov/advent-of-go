@@ -9,7 +9,7 @@ import (
 func TestOctopusIncreaseEnergy(t *testing.T) {
 	// Arrange
 	actual := Octopus{
-		position: &shared.Point{
+		position: shared.Point{
 			X: 0,
 			Y: 0,
 			Z: 9,
@@ -19,9 +19,7 @@ func TestOctopusIncreaseEnergy(t *testing.T) {
 	expected := 0
 
 	// Act
-	for i := 0; i < 10; i++ {
-		actual.increaseEnergy()
-	}
+	actual.increaseEnergy()
 
 	// Assert
 	if actual.position.Z != expected {
@@ -31,28 +29,24 @@ func TestOctopusIncreaseEnergy(t *testing.T) {
 
 func TestOctopusCharge(t *testing.T) {
 	// Arrange
-	cavern := make(Cavern, 3)
-	expected := []int{0, 0, 1}
+	cavern := make(Area, 3)
+	expected := []int{0, 0, 0}
 
 	// It should lit up fight after first step because:
 	// * it's about to lit up
-	cavern[0] = Octopus{
-		position: &shared.Point{
+	cavern[0] = &Octopus{
+		position: shared.Point{
 			X: 0,
 			Y: 0,
 			Z: 9,
-		},
-		neighbours: []*Octopus{
-			&cavern[1],
-			&cavern[2],
 		},
 	}
 
 	// It should lit up after first step, because:
 	// * node 0 will pass its charge
 	// * node 2 will pass its charge
-	cavern[1] = Octopus{
-		position: &shared.Point{
+	cavern[1] = &Octopus{
+		position: shared.Point{
 			X: 1,
 			Y: 1,
 			Z: 8,
@@ -62,16 +56,21 @@ func TestOctopusCharge(t *testing.T) {
 	// It should lit up right afer first step, because:
 	// * it's about to lit up
 	// * node 0 will pass its charge
-	cavern[2] = Octopus{
-		position: &shared.Point{
+	cavern[2] = &Octopus{
+		position: shared.Point{
 			X: 2,
 			Y: 2,
 			Z: 9,
 		},
-		neighbours: []*Octopus{
-			&cavern[0], // Adding circular dependency
-			&cavern[1],
-		},
+	}
+
+	cavern[0].neighbours = Area{
+		cavern[1],
+		cavern[2],
+	}
+	cavern[2].neighbours = Area{
+		cavern[0], // Adding circular dependency
+		cavern[1],
 	}
 
 	// Act
@@ -85,7 +84,7 @@ func TestOctopusCharge(t *testing.T) {
 	// Assert
 	for i := 0; i < len(expected); i++ {
 		if actual[i] != expected[i] {
-			t.Errorf("Result was incorrect, got: %v, want: %v", actual[i], expected[i])
+			t.Errorf("Result was incorrect, got: %v, want: %v", actual, expected)
 			return
 		}
 	}

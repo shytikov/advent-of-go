@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestDataCreateChain(t *testing.T) {
+func TestDataCreateArea(t *testing.T) {
 	// Arrange
 	data := Data{
 		{5, 4, 8, 3, 1, 4, 3, 2, 2, 3},
@@ -22,7 +22,7 @@ func TestDataCreateChain(t *testing.T) {
 	expectedLength := len(data) * len(data[0])
 
 	// Act
-	actual := data.CreateCavern()
+	actual := data.CreateArea()
 
 	// Assert
 	if len(actual) != expectedLength {
@@ -38,7 +38,7 @@ func TestDataCreateChain(t *testing.T) {
 	// }
 }
 
-func TestDataGetNeighboursCount(t *testing.T) {
+func TestDataGetNeighbourCount(t *testing.T) {
 	// Arrange
 	expected := Data{
 		{3, 5, 5, 5, 5, 5, 5, 5, 5, 3},
@@ -58,7 +58,7 @@ func TestDataGetNeighboursCount(t *testing.T) {
 	// Assert
 	for i := 0; i < lenX; i++ {
 		for j := 0; j < lenY; j++ {
-			length := expected.getNeighboursCount(i, j)
+			length := expected.getNeighbourCount(i, j)
 			if length != expected[i][j] {
 				t.Errorf("Result was incorrect for index (%v,%v), got: %v, want: %v", i, j, length, expected[i][j])
 				return
@@ -67,7 +67,7 @@ func TestDataGetNeighboursCount(t *testing.T) {
 	}
 }
 
-func TestDataGetNeighboursIndexes(t *testing.T) {
+func TestDataGetNeighbourIndexes(t *testing.T) {
 	// Arrange
 	data := Data{
 		{0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
@@ -91,10 +91,10 @@ func TestDataGetNeighboursIndexes(t *testing.T) {
 
 	// Act
 	actual := map[int][]int{
-		0:  data.getNeighboursIndexes(0, 0),
-		1:  data.getNeighboursIndexes(0, 1),
-		11: data.getNeighboursIndexes(1, 1),
-		88: data.getNeighboursIndexes(8, 8),
+		0:  data.getNeighbourIndexes(0, 0),
+		1:  data.getNeighbourIndexes(0, 1),
+		11: data.getNeighbourIndexes(1, 1),
+		88: data.getNeighbourIndexes(8, 8),
 	}
 
 	// Assert
@@ -134,7 +134,6 @@ func TestDataGetOctopusIndex(t *testing.T) {
 	actual := make([][]int, lenX)
 
 	for i := 0; i < lenX; i++ {
-
 		actual[i] = make([]int, lenY)
 		for j := 0; j < lenY; j++ {
 			actual[i][j] = expected.getOctopusIndex(i, j)

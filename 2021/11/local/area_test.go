@@ -1,11 +1,10 @@
 package local
 
 import (
-	"fmt"
 	"testing"
 )
 
-func TestCavernCreateGrid(t *testing.T) {
+func TestAreaCreateGrid(t *testing.T) {
 	// Arrange
 	expected := Data{
 		{5, 4, 8, 3, 1, 4, 3, 2, 2, 3},
@@ -22,7 +21,8 @@ func TestCavernCreateGrid(t *testing.T) {
 	lenX, lenY := len(expected), len(expected[0])
 
 	// Act
-	actual := expected.CreateCavern().createGrid()
+	cavern := expected.CreateArea()
+	actual := (&cavern).createGrid()
 
 	// Assert
 	if len(actual) != len(expected) {
@@ -40,7 +40,7 @@ func TestCavernCreateGrid(t *testing.T) {
 	}
 }
 
-func TestCavernGetFlashesCount(t *testing.T) {
+func TestAreaGetFlashesCount(t *testing.T) {
 	// Arrange
 	data := Data{
 		{0, 0, 0, 0, 0},
@@ -50,11 +50,11 @@ func TestCavernGetFlashesCount(t *testing.T) {
 		{0, 0, 0, 0, 0},
 	}
 	lenX, lenY := len(data), len(data[0])
-	chain := data.CreateCavern()
+	cavern := data.CreateArea()
 	expected := lenX * lenY
 
 	// Act
-	actual := chain.getFlashesCount()
+	actual := cavern.getFlashesCount()
 
 	// Assert
 	if actual != expected {
@@ -63,7 +63,7 @@ func TestCavernGetFlashesCount(t *testing.T) {
 	}
 }
 
-func TestCavernAccumulateCharge(t *testing.T) {
+func TestAreaAccumulateCharge(t *testing.T) {
 	// Arrange
 	data := Data{
 		{1, 1, 1, 1, 1},
@@ -73,33 +73,13 @@ func TestCavernAccumulateCharge(t *testing.T) {
 		{1, 1, 1, 1, 1},
 	}
 	expected := []int{0, 9, 0}
-	cavern := data.CreateCavern()
+	cavern := data.CreateArea()
 
 	// Act
 	actual := make([]int, len(expected))
 	actual[0] = cavern.getFlashesCount()
-
-	for _, row := range cavern.createGrid() {
-		fmt.Println(row)
-	}
-
-	fmt.Println()
-
 	actual[1] = cavern.AccumulateCharge()
-
-	for _, row := range cavern.createGrid() {
-		fmt.Println(row)
-	}
-
-	fmt.Println()
-
 	actual[2] = cavern.AccumulateCharge()
-
-	for _, row := range cavern.createGrid() {
-		fmt.Println(row)
-	}
-
-	fmt.Println()
 
 	// Assert
 	for i := 0; i < len(expected); i++ {
