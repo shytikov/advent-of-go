@@ -23,7 +23,9 @@ func TestOctopusIncreaseEnergy(t *testing.T) {
 
 	// Assert
 	if actual.position.Z != expected {
-		t.Errorf("Energy level was incorrect, got: %v, want: %v", actual.position.Z, expected)
+		t.Errorf("Energy level was incorrect, got: %v, want: %v",
+			actual.position.Z,
+			expected)
 	}
 }
 

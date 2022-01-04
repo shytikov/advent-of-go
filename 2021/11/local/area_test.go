@@ -26,14 +26,18 @@ func TestAreaCreateGrid(t *testing.T) {
 
 	// Assert
 	if len(actual) != len(expected) {
-		t.Errorf("Result was incorrect, lengths don't match, got: %v, want: %v", len(actual), len(expected))
+		t.Errorf("Result was incorrect, lengths don't match, got: %v, want: %v",
+			len(actual),
+			len(expected))
 		return
 	}
 
 	for i := 0; i < lenX; i++ {
 		for j := 0; j < lenY; j++ {
 			if actual[i][j] != expected[i][j] {
-				t.Errorf("Result was incorrect, got: %v, want: %v", actual[i][j], expected[i][j])
+				t.Errorf("Result was incorrect, got: %v, want: %v",
+					actual[i][j],
+					expected[i][j])
 				return
 			}
 		}
@@ -58,7 +62,9 @@ func TestAreaGetFlashesCount(t *testing.T) {
 
 	// Assert
 	if actual != expected {
-		t.Errorf("Result was incorrect, lengths don't match, got: %v, want: %v", actual, expected)
+		t.Errorf("Result was incorrect, lengths don't match, got: %v, want: %v",
+			actual,
+			expected)
 		return
 	}
 }
@@ -84,7 +90,9 @@ func TestAreaAccumulateCharge(t *testing.T) {
 	// Assert
 	for i := 0; i < len(expected); i++ {
 		if actual[i] != expected[i] {
-			t.Errorf("Result was incorrect, got: %v, want: %v", actual[i], expected[i])
+			t.Errorf("Result was incorrect, got: %v, want: %v",
+				actual[i],
+				expected[i])
 			return
 		}
 	}

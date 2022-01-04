@@ -6,7 +6,7 @@ import (
 
 func TestDataCreateArea(t *testing.T) {
 	// Arrange
-	data := Data{
+	expected := Data{
 		{5, 4, 8, 3, 1, 4, 3, 2, 2, 3},
 		{2, 7, 4, 5, 8, 5, 4, 7, 1, 1},
 		{5, 2, 6, 4, 5, 5, 6, 1, 7, 3},
@@ -18,24 +18,34 @@ func TestDataCreateArea(t *testing.T) {
 		{4, 8, 4, 6, 8, 4, 8, 5, 5, 4},
 		{5, 2, 8, 3, 7, 5, 1, 5, 2, 6},
 	}
+	lenX, lenY := len(expected), len(expected[0])
 
-	expectedLength := len(data) * len(data[0])
+	expectedLength := lenX * lenY
 
 	// Act
-	actual := data.CreateArea()
+	actual := expected.CreateArea()
 
 	// Assert
 	if len(actual) != expectedLength {
-		t.Errorf("Result was incorrect, lengths don't match, got: %v, want: %v", len(actual), expectedLength)
+		t.Errorf("Result was incorrect, lengths don't match, got: %v, want: %v",
+			len(actual),
+			expectedLength)
 		return
 	}
 
-	// for i := 0; i < len(expected); i++ {
-	// 	if actual[i] != expected[i] {
-	// 		t.Errorf("Result was incorrect, got: %v, want: %v", actual[i], expected[i])
-	// 		return
-	// 	}
-	// }
+	for i := 0; i < lenX; i++ {
+		for j := 0; j < lenY; j++ {
+			octopus := actual[expected.getOctopusIndex(i, j)]
+			if octopus.position.Z != expected[i][j] {
+				t.Errorf("Result was incorrect for index (%v,%v), got: %v, want: %v",
+					i,
+					j,
+					octopus.position.Z,
+					expected[i][j])
+				return
+			}
+		}
+	}
 }
 
 func TestDataGetNeighbourCount(t *testing.T) {
