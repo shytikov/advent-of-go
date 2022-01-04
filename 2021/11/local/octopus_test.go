@@ -9,7 +9,7 @@ import (
 func TestOctopusIncreaseEnergy(t *testing.T) {
 	// Arrange
 	actual := Octopus{
-		position: shared.Point{
+		Value: shared.Point{
 			X: 0,
 			Y: 0,
 			Z: 9,
@@ -22,9 +22,9 @@ func TestOctopusIncreaseEnergy(t *testing.T) {
 	actual.increaseEnergy()
 
 	// Assert
-	if actual.position.Z != expected {
+	if actual.Value.Z != expected {
 		t.Errorf("Energy level was incorrect, got: %v, want: %v",
-			actual.position.Z,
+			actual.Value.Z,
 			expected)
 	}
 }
@@ -37,7 +37,7 @@ func TestOctopusCharge(t *testing.T) {
 	// It should lit up fight after first step because:
 	// * it's about to lit up
 	cavern[0] = &Octopus{
-		position: shared.Point{
+		Value: shared.Point{
 			X: 0,
 			Y: 0,
 			Z: 9,
@@ -48,7 +48,7 @@ func TestOctopusCharge(t *testing.T) {
 	// * node 0 will pass its charge
 	// * node 2 will pass its charge
 	cavern[1] = &Octopus{
-		position: shared.Point{
+		Value: shared.Point{
 			X: 1,
 			Y: 1,
 			Z: 8,
@@ -59,18 +59,18 @@ func TestOctopusCharge(t *testing.T) {
 	// * it's about to lit up
 	// * node 0 will pass its charge
 	cavern[2] = &Octopus{
-		position: shared.Point{
+		Value: shared.Point{
 			X: 2,
 			Y: 2,
 			Z: 9,
 		},
 	}
 
-	cavern[0].neighbours = Area{
+	cavern[0].Links = Area{
 		cavern[1],
 		cavern[2],
 	}
-	cavern[2].neighbours = Area{
+	cavern[2].Links = Area{
 		cavern[0], // Adding circular dependency
 		cavern[1],
 	}
@@ -78,9 +78,9 @@ func TestOctopusCharge(t *testing.T) {
 	// Act
 	cavern[2].charge()
 	actual := []int{
-		cavern[0].position.Z,
-		cavern[1].position.Z,
-		cavern[2].position.Z,
+		cavern[0].Value.Z,
+		cavern[1].Value.Z,
+		cavern[2].Value.Z,
 	}
 
 	// Assert

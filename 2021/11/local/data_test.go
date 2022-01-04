@@ -36,11 +36,11 @@ func TestDataCreateArea(t *testing.T) {
 	for i := 0; i < lenX; i++ {
 		for j := 0; j < lenY; j++ {
 			octopus := actual[expected.getOctopusIndex(i, j)]
-			if octopus.position.Z != expected[i][j] {
+			if octopus.Value.Z != expected[i][j] {
 				t.Errorf("Result was incorrect for index (%v,%v), got: %v, want: %v",
 					i,
 					j,
-					octopus.position.Z,
+					octopus.Value.Z,
 					expected[i][j])
 				return
 			}

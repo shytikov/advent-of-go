@@ -5,21 +5,21 @@ import (
 )
 
 type Octopus struct {
-	position   shared.Point
-	neighbours Area
-	flashed    bool
+	Value   shared.Point
+	Links   Area
+	flashed bool
 }
 
 func (o *Octopus) increaseEnergy() {
-	o.position.Z = (o.position.Z + 1) % 10
+	o.Value.Z = (o.Value.Z + 1) % 10
 }
 
 func (o *Octopus) charge() {
 	if !o.flashed {
 		o.increaseEnergy()
-		if o.position.Z == 0 && !o.flashed {
+		if o.Value.Z == 0 && !o.flashed {
 			o.flashed = true
-			for _, link := range o.neighbours {
+			for _, link := range o.Links {
 				link.charge()
 			}
 		}

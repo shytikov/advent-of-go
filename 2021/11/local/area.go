@@ -11,8 +11,8 @@ func (a *Area) createGrid() (result [][]int) {
 	y := make([]int, length)
 
 	for i, octopus := range area {
-		x[i] = octopus.position.X
-		y[i] = octopus.position.Y
+		x[i] = octopus.Value.X
+		y[i] = octopus.Value.Y
 	}
 
 	lenX := shared.MaxOf(x) + 1
@@ -26,7 +26,7 @@ func (a *Area) createGrid() (result [][]int) {
 	}
 
 	for _, octopus := range area {
-		result[octopus.position.X][octopus.position.Y] = octopus.position.Z
+		result[octopus.Value.X][octopus.Value.Y] = octopus.Value.Z
 	}
 
 	return
@@ -38,7 +38,7 @@ func (a *Area) getFlashesCount() (result int) {
 
 	for i := 0; i < length; i++ {
 		area[i].flashed = false
-		if area[i].position.Z == 0 {
+		if area[i].Value.Z == 0 {
 			result++
 		}
 	}

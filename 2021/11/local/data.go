@@ -15,8 +15,8 @@ func (d Data) CreateArea() (result Area) {
 	for i := 0; i < lenX; i++ {
 		for j := 0; j < lenY; j++ {
 			result[d.getOctopusIndex(i, j)] = &Octopus{
-				position: shared.Point{i, j, d[i][j]},
-				flashed:  false,
+				Value:   shared.Point{i, j, d[i][j]},
+				flashed: false,
 			}
 		}
 	}
@@ -30,7 +30,7 @@ func (d Data) CreateArea() (result Area) {
 				neighbours[k] = result[index]
 			}
 
-			result[d.getOctopusIndex(i, j)].neighbours = neighbours
+			result[d.getOctopusIndex(i, j)].Links = neighbours
 		}
 	}
 
