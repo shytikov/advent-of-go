@@ -1,26 +1,45 @@
 package local
 
-import (
-	"github.com/shytikov/advent-of-go/shared"
-)
+import "github.com/shytikov/advent-of-go/shared"
 
-type Octopus struct {
-	Value   shared.Point
-	Links   Area
-	flashed bool
+type Octopus shared.Node
+
+func (o *Octopus) increaseEnergy() int {
+	status := o.Value.(*Status)
+	status.position.Z = (status.position.Z + 1) % 10
+
+	return status.position.Z
 }
 
-func (o *Octopus) increaseEnergy() {
-	o.Value.Z = (o.Value.Z + 1) % 10
+func (o *Octopus) getEnergy() int {
+	status := o.Value.(*Status)
+
+	return status.position.Z
+}
+
+func (o *Octopus) setFlashed(value bool) {
+	status := o.Value.(*Status)
+	status.flashed = value
+}
+
+func (o *Octopus) getFlashed() bool {
+	status := o.Value.(*Status)
+
+	return status.flashed
+}
+
+func (o *Octopus) getPosition() (int, int, int) {
+	status := o.Value.(*Status)
+
+	return status.position.X, status.position.Y, status.position.Z
 }
 
 func (o *Octopus) charge() {
-	if !o.flashed {
-		o.increaseEnergy()
-		if o.Value.Z == 0 && !o.flashed {
-			o.flashed = true
-			for _, link := range o.Links {
-				link.charge()
+	if !o.getFlashed() {
+		if o.increaseEnergy() == 0 {
+			o.setFlashed(true)
+			for _, current := range o.Links {
+				(*Octopus)(current).charge()
 			}
 		}
 	}

@@ -19,7 +19,6 @@ func TestDataCreateArea(t *testing.T) {
 		{5, 2, 8, 3, 7, 5, 1, 5, 2, 6},
 	}
 	lenX, lenY := len(expected), len(expected[0])
-
 	expectedLength := lenX * lenY
 
 	// Act
@@ -35,12 +34,14 @@ func TestDataCreateArea(t *testing.T) {
 
 	for i := 0; i < lenX; i++ {
 		for j := 0; j < lenY; j++ {
-			octopus := actual[expected.getOctopusIndex(i, j)]
-			if octopus.Value.Z != expected[i][j] {
+			current := actual[expected.getOctopusIndex(i, j)]
+			energy := (*Octopus)(current).getEnergy()
+
+			if energy != expected[i][j] {
 				t.Errorf("Result was incorrect for index (%v,%v), got: %v, want: %v",
 					i,
 					j,
-					octopus.Value.Z,
+					energy,
 					expected[i][j])
 				return
 			}
@@ -70,7 +71,11 @@ func TestDataGetNeighbourCount(t *testing.T) {
 		for j := 0; j < lenY; j++ {
 			length := expected.getNeighbourCount(i, j)
 			if length != expected[i][j] {
-				t.Errorf("Result was incorrect for index (%v,%v), got: %v, want: %v", i, j, length, expected[i][j])
+				t.Errorf("Result was incorrect for index (%v,%v), got: %v, want: %v",
+					i,
+					j,
+					length,
+					expected[i][j])
 				return
 			}
 		}
@@ -110,13 +115,18 @@ func TestDataGetNeighbourIndexes(t *testing.T) {
 	// Assert
 	for k, v := range actual {
 		if len(v) != len(expected[k]) {
-			t.Errorf("Result was incorrect, lengths don't match, got: %v, want: %v", len(v), len(expected[k]))
+			t.Errorf("Result was incorrect, lengths don't match, got: %v, want: %v",
+				len(v),
+				len(expected[k]))
 			return
 		}
 
 		for i, item := range v {
 			if item != expected[k][i] {
-				t.Errorf("Result was incorrect, neighbours don't match for index %v, got: %v, want: %v", k, v, expected[k])
+				t.Errorf("Result was incorrect, neighbours don't match for index %v, got: %v, want: %v",
+					k,
+					v,
+					expected[k])
 				return
 			}
 		}
@@ -154,7 +164,11 @@ func TestDataGetOctopusIndex(t *testing.T) {
 	for i := 0; i < lenX; i++ {
 		for j := 0; j < lenY; j++ {
 			if actual[i][j] != expected[i][j] {
-				t.Errorf("Result was incorrect for index (%v,%v), got: %v, want: %v", i, j, actual[i][j], expected[i][j])
+				t.Errorf("Result was incorrect for index (%v,%v), got: %v, want: %v",
+					i,
+					j,
+					actual[i][j],
+					expected[i][j])
 				return
 			}
 		}

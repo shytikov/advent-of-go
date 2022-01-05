@@ -2,7 +2,7 @@ package local
 
 import "github.com/shytikov/advent-of-go/shared"
 
-type Area []*Octopus
+type Area []*shared.Node
 
 func (a *Area) createGrid() (result [][]int) {
 	area := *a
@@ -10,9 +10,8 @@ func (a *Area) createGrid() (result [][]int) {
 	x := make([]int, length)
 	y := make([]int, length)
 
-	for i, octopus := range area {
-		x[i] = octopus.Value.X
-		y[i] = octopus.Value.Y
+	for i, current := range area {
+		x[i], y[i], _ = (*Octopus)(current).getPosition()
 	}
 
 	lenX := shared.MaxOf(x) + 1
@@ -25,20 +24,20 @@ func (a *Area) createGrid() (result [][]int) {
 		result[i] = make([]int, lenY)
 	}
 
-	for _, octopus := range area {
-		result[octopus.Value.X][octopus.Value.Y] = octopus.Value.Z
+	for _, current := range area {
+		X, Y, Z := (*Octopus)(current).getPosition()
+		result[X][Y] = Z
 	}
 
 	return
 }
 
 func (a *Area) getFlashesCount() (result int) {
-	area := *a
-	length := len(area)
+	for _, current := range *a {
+		octopus := (*Octopus)(current)
+		octopus.setFlashed(false)
 
-	for i := 0; i < length; i++ {
-		area[i].flashed = false
-		if area[i].Value.Z == 0 {
+		if octopus.getEnergy() == 0 {
 			result++
 		}
 	}
@@ -47,8 +46,8 @@ func (a *Area) getFlashesCount() (result int) {
 }
 
 func (a *Area) AccumulateCharge() int {
-	for _, octopus := range *a {
-		octopus.charge()
+	for _, current := range *a {
+		(*Octopus)(current).charge()
 	}
 
 	return a.getFlashesCount()
