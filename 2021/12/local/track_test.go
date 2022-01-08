@@ -36,30 +36,34 @@ func TestTrackAdd(t *testing.T) {
 	}
 }
 
-func TestTrackGetStats(t *testing.T) {
+func TestTrackVisited(t *testing.T) {
 	// Arrange
-	track := Track{}
-	track.Add(&shared.Node{Value: "start"})
-	track.Add(&shared.Node{Value: "A"})
-	track.Add(&shared.Node{Value: "A"})
-	track.Add(&shared.Node{Value: "A"})
-	track.Add(&shared.Node{Value: "B"})
-	track.Add(&shared.Node{Value: "c"})
-	track.Add(&shared.Node{Value: "c"})
-	track.Add(&shared.Node{Value: "d"})
-	track.Add(&shared.Node{Value: "end"})
-
-	expected := []int{1, 1, 3, 2}
+	expected := map[string]int{
+		"start": 1,
+		"end":   1,
+		"A":     3,
+		"B":     1,
+		"c":     2,
+		"d":     1,
+	}
 
 	// Act
-	actual := make([]int, 4)
-	actual[0], actual[1], actual[2], actual[3] = track.GetStats()
+	actual := Track{}
+	actual.Add(&shared.Node{Value: "start"})
+	actual.Add(&shared.Node{Value: "A"})
+	actual.Add(&shared.Node{Value: "A"})
+	actual.Add(&shared.Node{Value: "A"})
+	actual.Add(&shared.Node{Value: "B"})
+	actual.Add(&shared.Node{Value: "c"})
+	actual.Add(&shared.Node{Value: "c"})
+	actual.Add(&shared.Node{Value: "d"})
+	actual.Add(&shared.Node{Value: "end"})
 
 	// Assert
 	for i, value := range expected {
-		if value != actual[i] {
+		if value != actual.Visited[i] {
 			t.Errorf("Result was incorrect, got: %v, want: %v",
-				actual,
+				actual.Visited,
 				expected)
 			return
 		}

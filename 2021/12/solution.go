@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/shytikov/advent-of-go/2021/12/local"
 	"github.com/shytikov/advent-of-go/shared"
@@ -25,22 +26,47 @@ func main() {
 }
 
 func solvePuzzleA(input local.Data, result chan int) {
-	result <- len(search(input, local.Track{}))
+	criterion := func(route local.Track) (startFlag, endFlag, doneFlag bool) {
+		counts := map[string]int{
+			"start": 0,
+			"end":   0,
+			"small": 0,
+		}
+
+		for name, count := range route.Visited {
+			if name == "start" {
+				counts["start"] += count
+			} else if name == "end" {
+				counts["end"] += count
+			} else {
+				if strings.ToLower(name) == name {
+					if counts["small"] < count {
+						counts["small"] = count
+					}
+				}
+			}
+		}
+
+		return counts["start"] > 1, counts["end"] > 0, counts["small"] > 1
+	}
+
+	result <- len(search(input, local.Track{}, criterion))
 }
 
 func solvePuzzleB(input local.Data, result chan int) {
 	result <- 0
 }
 
-func search(path *shared.Node, route local.Track) (routes []string) {
-	route.Add(path)
-	start, end, _, small := route.GetStats()
+func search(cave *shared.Node, route local.Track, resolver local.Criterion) (routes []string) {
+	route.Add(cave)
 
-	if end > 0 {
+	start, end, done := resolver(route)
+
+	if end {
 		routes = append(routes, route.String())
-	} else if start < 2 && small < 2 {
-		for _, link := range path.Links {
-			routes = append(routes, search(link, route)...)
+	} else if !start && !done {
+		for _, link := range cave.Links {
+			routes = append(routes, search(link, route, resolver)...)
 		}
 	}
 
