@@ -26,45 +26,85 @@ func main() {
 }
 
 func solvePuzzleA(input local.Data, result chan int) {
-	criterion := func(route local.Track) (startFlag, endFlag, doneFlag bool) {
-		counts := map[string]int{
-			"start": 0,
-			"end":   0,
-			"small": 0,
-		}
+	criterion := func(route local.Track) (circular, complete, invalid bool) {
+		start, end, small := 0, 0, 0
 
 		for name, count := range route.Visited {
 			if name == "start" {
-				counts["start"] += count
+				start += count
+				circular = start > 1
+				if circular {
+					break
+				}
 			} else if name == "end" {
-				counts["end"] += count
-			} else {
-				if strings.ToLower(name) == name {
-					if counts["small"] < count {
-						counts["small"] = count
+				end += count
+				complete = end > 0
+				if complete {
+					break
+				}
+			} else if strings.ToLower(name) == name {
+				if small < count {
+					small = count
+					invalid = small > 1
+					if invalid {
+						break
 					}
 				}
 			}
 		}
 
-		return counts["start"] > 1, counts["end"] > 0, counts["small"] > 1
+		return
 	}
 
 	result <- len(search(input, local.Track{}, criterion))
 }
 
 func solvePuzzleB(input local.Data, result chan int) {
-	result <- 0
+	criterion := func(route local.Track) (circular, complete, invalid bool) {
+		start, end, double := 0, 0, 0
+
+		for name, count := range route.Visited {
+			if name == "start" {
+				start += count
+				circular = start > 1
+				if circular {
+					break
+				}
+			} else if name == "end" {
+				end += count
+				complete = end > 0
+				if complete {
+					break
+				}
+			} else if strings.ToLower(name) == name {
+				if count == 2 {
+					double = double + 1
+					invalid = double > 1
+					if invalid {
+						break
+					}
+				} else if count > 2 {
+					invalid = true
+					circular = true
+					break
+				}
+			}
+		}
+
+		return
+	}
+
+	result <- len(search(input, local.Track{}, criterion))
 }
 
 func search(cave *shared.Node, route local.Track, resolver local.Criterion) (routes []string) {
 	route.Add(cave)
 
-	start, end, done := resolver(route)
+	circular, complete, invalid := resolver(route)
 
-	if end {
+	if complete {
 		routes = append(routes, route.String())
-	} else if !start && !done {
+	} else if !circular && !invalid {
 		for _, link := range cave.Links {
 			routes = append(routes, search(link, route, resolver)...)
 		}
