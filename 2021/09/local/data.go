@@ -79,7 +79,7 @@ func (d Data) DetectBasinSizes(coordinates []shared.Point) (result []int) {
 						_, found := visited[current]
 
 						if d[x][y] < 9 && !found {
-							queue = append(queue, shared.Point{x, y, d[x][y]})
+							queue = append(queue, shared.Point{X: x, Y: y, Z: d[x][y]})
 							visited[current] = true
 							count++
 						}

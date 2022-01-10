@@ -10,8 +10,8 @@ func TestTrackAdd(t *testing.T) {
 	// Arrange
 	track := Track{path: "start,A,B,c,"}
 	nodes := []*shared.Node{
-		&shared.Node{Value: "d"},
-		&shared.Node{Value: "end"},
+		{Value: "d"},
+		{Value: "end"},
 	}
 
 	expected := []string{

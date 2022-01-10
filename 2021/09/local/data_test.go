@@ -17,10 +17,10 @@ func TestDetectLowestPoints(t *testing.T) {
 	}
 
 	expected := []shared.Point{
-		{0, 1, 1},
-		{0, 9, 0},
-		{2, 2, 5},
-		{4, 6, 5},
+		{X: 0, Y: 1, Z: 1},
+		{X: 0, Y: 9, Z: 0},
+		{X: 2, Y: 2, Z: 5},
+		{X: 4, Y: 6, Z: 5},
 	}
 
 	// Act

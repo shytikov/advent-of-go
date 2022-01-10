@@ -15,10 +15,8 @@ func (d Data) CreateArea() (result Area) {
 	for i := 0; i < lenX; i++ {
 		for j := 0; j < lenY; j++ {
 			result[d.getOctopusIndex(i, j)] = &shared.Node{
-				Value: &Status{
-					position: shared.Point{i, j, d[i][j]},
-					flashed:  false,
-				},
+				Value: &Status{position: shared.Point{X: i, Y: j, Z: d[i][j]}, flashed: false},
+				Links: []*shared.Node{},
 			}
 		}
 	}
@@ -81,14 +79,14 @@ func (d Data) getNeighbourIndexes(i, j int) (result []int) {
 	lenX, lenY := len(d), len(d[0])
 
 	vector := []shared.Point{
-		{-1, -1, 0}, // Up-Left
-		{-1, 0, 0},  // Up-Middle
-		{-1, 1, 0},  // Up-Right
-		{0, -1, 0},  // Center-Left
-		{0, 1, 0},   // Center-Right
-		{1, -1, 0},  // Down-left
-		{1, 0, 0},   // Down-Middle
-		{1, 1, 0},   // Down-Right
+		{X: -1, Y: -1, Z: 0}, // Up-Left
+		{X: -1, Y: 0, Z: 0},  // Up-Middle
+		{X: -1, Y: 1, Z: 0},  // Up-Right
+		{X: 0, Y: -1, Z: 0},  // Center-Left
+		{X: 0, Y: 1, Z: 0},   // Center-Right
+		{X: 1, Y: -1, Z: 0},  // Down-left
+		{X: 1, Y: 0, Z: 0},   // Down-Middle
+		{X: 1, Y: 1, Z: 0},   // Down-Right
 	}
 
 	count := 0
