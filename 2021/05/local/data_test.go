@@ -6,28 +6,6 @@ import (
 	"github.com/shytikov/advent-of-go/shared"
 )
 
-func TestParsePoint(t *testing.T) {
-	// Arrange
-	definition := "599,531"
-
-	expected := shared.Point{
-		X: 599,
-		Y: 531,
-	}
-
-	// Act
-	actual := parsePoint(definition)
-
-	// Assert
-	if actual.X != expected.X || actual.Y != expected.Y {
-		t.Errorf("Point value was incorrect, got: (%d, %d), want: (%d, %d).",
-			actual.X,
-			actual.Y,
-			expected.X,
-			expected.Y)
-	}
-}
-
 func TestParseVent(t *testing.T) {
 	// Arrange
 	definition := "599,531 -> 599,32"

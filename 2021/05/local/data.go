@@ -2,7 +2,6 @@ package local
 
 import (
 	"io/ioutil"
-	"strconv"
 	"strings"
 	"sync"
 
@@ -91,21 +90,12 @@ func parseData(content string) (result Data) {
 	return
 }
 
-func parsePoint(definition string) (result shared.Point) {
-	chunks := strings.Split(definition, ",")
-
-	result.X, _ = strconv.Atoi(chunks[0])
-	result.Y, _ = strconv.Atoi(chunks[1])
-
-	return
-}
-
 func parseVent(definition string) (result Vent) {
 	definition = strings.TrimSpace(definition)
 	chunks := strings.Split(definition, " -> ")
 
-	from := parsePoint(chunks[0])
-	to := parsePoint(chunks[1])
+	from := shared.ParsePoint(chunks[0])
+	to := shared.ParsePoint(chunks[1])
 
 	result = Vent{
 		From:   from,

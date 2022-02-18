@@ -18,13 +18,11 @@ type Command struct {
 //
 // stringKey1 intValue1\n
 // stringKey2 intValue2\n
-func Read(filename string) Data {
+func Read(filename string) (result Data) {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil
 	}
-
-	result := make(Data, 0)
 
 	for _, line := range strings.Split(string(content), "\n") {
 		chunks := strings.Split(line, " ")
