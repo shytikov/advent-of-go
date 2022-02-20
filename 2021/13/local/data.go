@@ -1,10 +1,10 @@
 package local
 
 import (
-	"fmt"
-	"github.com/shytikov/advent-of-go/shared"
 	"io/ioutil"
 	"strings"
+
+	"github.com/shytikov/advent-of-go/shared"
 )
 
 type Data struct {
@@ -25,7 +25,12 @@ func Read(filename string) (result Data) {
 func parseData(content string) (result Data) {
 	chunks := strings.Split(trimLines(content), "\n\n")
 
-	fmt.Println(len(chunks))
+	points := make(chan []shared.Point)
+	// folds := make(chan []int)
+
+	getPoints(chunks[0], points)
+
+	result.Points = <-points
 
 	return
 }
@@ -38,4 +43,14 @@ func trimLines(content string) string {
 	}
 
 	return strings.Join(lines, "\n")
+}
+
+func getPoints(content string, result chan []shared.Point) {
+	points := make([]shared.Point, len(content))
+
+	for i, line := range strings.Split(content, "\n") {
+		points[i] = shared.ParsePoint(line)
+	}
+
+	result <- points
 }
