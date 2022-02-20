@@ -1,6 +1,7 @@
 package shared
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -10,6 +11,10 @@ type Point struct {
 	X int
 	Y int
 	Z int
+}
+
+func (p Point) String() string {
+	return fmt.Sprintf("%d,%d,%d", p.X, p.Y, p.Z)
 }
 
 func ParsePoint(definition string) (result Point) {

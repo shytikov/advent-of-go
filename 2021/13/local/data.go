@@ -2,6 +2,7 @@ package local
 
 import (
 	"io/ioutil"
+	"strconv"
 	"strings"
 
 	"github.com/shytikov/advent-of-go/shared"
@@ -9,7 +10,7 @@ import (
 
 type Data struct {
 	Points []shared.Point
-	Folds  []int
+	Folds  []shared.Point
 }
 
 func Read(filename string) (result Data) {
@@ -26,11 +27,13 @@ func parseData(content string) (result Data) {
 	chunks := strings.Split(trimLines(content), "\n\n")
 
 	points := make(chan []shared.Point)
-	// folds := make(chan []int)
+	folds := make(chan []shared.Point)
 
-	getPoints(chunks[0], points)
+	go getPoints(chunks[0], points)
+	go getFolds(chunks[1], folds)
 
 	result.Points = <-points
+	result.Folds = <-folds
 
 	return
 }
@@ -42,15 +45,33 @@ func trimLines(content string) string {
 		lines[i] = strings.TrimSpace(line)
 	}
 
-	return strings.Join(lines, "\n")
+	return strings.TrimSpace(strings.Join(lines, "\n"))
 }
 
 func getPoints(content string, result chan []shared.Point) {
-	points := make([]shared.Point, len(content))
+	lines := strings.Split(content, "\n")
+	points := make([]shared.Point, len(lines))
 
-	for i, line := range strings.Split(content, "\n") {
+	for i, line := range lines {
 		points[i] = shared.ParsePoint(line)
 	}
 
 	result <- points
+}
+
+func getFolds(content string, result chan []shared.Point) {
+	lines := strings.Split(content, "\n")
+	folds := make([]shared.Point, len(lines))
+
+	for i, line := range lines {
+		chunks := strings.Split(line, "=")
+		value, _ := strconv.Atoi(chunks[1])
+		if strings.HasSuffix(chunks[0], "x") {
+			folds[i] = shared.Point{X: value, Y: 0}
+		} else {
+			folds[i] = shared.Point{X: 0, Y: value}
+		}
+	}
+
+	result <- folds
 }
