@@ -1,6 +1,7 @@
 package local
 
 import (
+	"github.com/shytikov/advent-of-go/shared"
 	"io/ioutil"
 	"sort"
 	"strings"
@@ -11,10 +12,7 @@ type Data []Entry
 
 func Read(filename string) Data {
 	content, err := ioutil.ReadFile(filename)
-
-	if err != nil {
-		return nil
-	}
+	shared.ActOn(err)
 
 	return parseData(string(content))
 }

@@ -11,10 +11,7 @@ type Data *shared.Node
 
 func Read(filename string) (result Data) {
 	content, err := ioutil.ReadFile(filename)
-
-	if err != nil {
-		return
-	}
+	shared.ActOn(err)
 
 	return read(string(content))
 }

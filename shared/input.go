@@ -8,9 +8,7 @@ import (
 
 func ReadIntFromLine(filename string) (result []int) {
 	content, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil
-	}
+	ActOn(err)
 
 	for _, line := range strings.Split(string(content), "\n") {
 		number, err := strconv.Atoi(line)
@@ -33,9 +31,7 @@ func ReadIntFromLine(filename string) (result []int) {
 // Each rune then will be converted to integer
 func ReadIntGrid(filename string) (result [][]int) {
 	content, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil
-	}
+	ActOn(err)
 
 	result = readIntGrid(string(content))
 
@@ -54,18 +50,15 @@ func readIntGrid(content string) (result [][]int) {
 		}
 
 		chars := []rune(line)
-		serie := make([]int, len(chars))
+		series := make([]int, len(chars))
 		for i, char := range chars {
 			number, err := strconv.Atoi(string([]rune{char}))
+			ActOn(err)
 
-			if err != nil {
-				return nil
-			}
-
-			serie[i] = number
+			series[i] = number
 		}
 
-		result = append(result, serie)
+		result = append(result, series)
 	}
 
 	return
@@ -73,9 +66,7 @@ func readIntGrid(content string) (result [][]int) {
 
 func ReadRuneSlicesFromLines(filename string) (result [][]rune) {
 	content, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil
-	}
+	ActOn(err)
 
 	result = readRuneSlicesFromLines(string(content))
 
@@ -101,9 +92,7 @@ func readRuneSlicesFromLines(content string) (result [][]rune) {
 
 func ReadIntSlicesFromLines(filename string) (result [][]int) {
 	content, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil
-	}
+	ActOn(err)
 
 	result = readIntSlicesFromLines(string(content))
 
@@ -118,17 +107,14 @@ func readIntSlicesFromLines(content string) (result [][]int) {
 	for _, line := range strings.Split(content, "\n") {
 		line = strings.TrimSpace(line)
 		chunks := strings.Split(line, ",")
-		serie := make([]int, len(chunks))
+		series := make([]int, len(chunks))
 		for i, chunk := range chunks {
 			number, err := strconv.Atoi(chunk)
+			ActOn(err)
 
-			if err != nil {
-				return nil
-			}
-
-			serie[i] = number
+			series[i] = number
 		}
-		result = append(result, serie)
+		result = append(result, series)
 	}
 
 	return

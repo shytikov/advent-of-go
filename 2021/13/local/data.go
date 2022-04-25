@@ -15,10 +15,7 @@ type Data struct {
 
 func Read(filename string) (result Data) {
 	content, err := ioutil.ReadFile(filename)
-
-	if err != nil {
-		return
-	}
+	shared.ActOn(err)
 
 	return parseData(string(content))
 }

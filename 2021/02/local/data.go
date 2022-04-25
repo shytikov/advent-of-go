@@ -1,6 +1,7 @@
 package local
 
 import (
+	"github.com/shytikov/advent-of-go/shared"
 	"io/ioutil"
 	"strconv"
 	"strings"
@@ -20,9 +21,7 @@ type Command struct {
 // stringKey2 intValue2\n
 func Read(filename string) (result Data) {
 	content, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil
-	}
+	shared.ActOn(err)
 
 	for _, line := range strings.Split(string(content), "\n") {
 		chunks := strings.Split(line, " ")

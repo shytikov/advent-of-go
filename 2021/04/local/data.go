@@ -1,6 +1,7 @@
 package local
 
 import (
+	"github.com/shytikov/advent-of-go/shared"
 	"io/ioutil"
 	"strconv"
 	"strings"
@@ -13,10 +14,7 @@ type Data struct {
 
 func Read(filename string) (result Data) {
 	content, err := ioutil.ReadFile(filename)
-
-	if err != nil {
-		return
-	}
+	shared.ActOn(err)
 
 	lines := strings.Split(string(content), "\n")
 
