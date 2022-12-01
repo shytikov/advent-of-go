@@ -1,13 +1,13 @@
 package shared
 
 import (
-	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 )
 
 func ReadIntFromLine(filename string) (result []int) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	ActOn(err)
 
 	for _, line := range strings.Split(string(content), "\n") {
@@ -30,7 +30,7 @@ func ReadIntFromLine(filename string) (result []int) {
 // ReadIntGrid will read file and will treat each line as slice of runes
 // Each rune then will be converted to integer
 func ReadIntGrid(filename string) (result [][]int) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	ActOn(err)
 
 	result = readIntGrid(string(content))
@@ -65,7 +65,7 @@ func readIntGrid(content string) (result [][]int) {
 }
 
 func ReadRuneSlicesFromLines(filename string) (result [][]rune) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	ActOn(err)
 
 	result = readRuneSlicesFromLines(string(content))
@@ -91,7 +91,7 @@ func readRuneSlicesFromLines(content string) (result [][]rune) {
 }
 
 func ReadIntSlicesFromLines(filename string) (result [][]int) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	ActOn(err)
 
 	result = readIntSlicesFromLines(string(content))

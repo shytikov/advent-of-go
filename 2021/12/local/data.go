@@ -1,7 +1,7 @@
 package local
 
 import (
-	"io/ioutil"
+	"os"
 	"strings"
 
 	"github.com/shytikov/advent-of-go/shared"
@@ -10,7 +10,7 @@ import (
 type Data *shared.Node
 
 func Read(filename string) (result Data) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	shared.ActOn(err)
 
 	return read(string(content))

@@ -1,7 +1,7 @@
 package local
 
 import (
-	"io/ioutil"
+	"os"
 	"strings"
 	"sync"
 
@@ -15,7 +15,7 @@ type Data struct {
 }
 
 func Read(filename string) Data {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	shared.ActOn(err)
 
 	return parseData(string(content))

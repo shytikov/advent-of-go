@@ -2,7 +2,7 @@ package local
 
 import (
 	"github.com/shytikov/advent-of-go/shared"
-	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -20,7 +20,7 @@ type Command struct {
 // stringKey1 intValue1\n
 // stringKey2 intValue2\n
 func Read(filename string) (result Data) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	shared.ActOn(err)
 
 	for _, line := range strings.Split(string(content), "\n") {
