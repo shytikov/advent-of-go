@@ -1,6 +1,6 @@
 package shared
 
-// GetMaxFromCannel returns largest number found among the cannel contents
+// GetMaxFromChannel returns the largest number found among the channel contents
 func GetMaxFromChannel(input chan int) (result int) {
 	for number := range input {
 		if result < number {
@@ -11,7 +11,7 @@ func GetMaxFromChannel(input chan int) (result int) {
 	return
 }
 
-// GetSumFromChannel returs sum of all numbers found in the channel
+// GetSumFromChannel returns sum of all numbers found in the channel
 func GetSumFromChannel(input chan int) (result int) {
 	for number := range input {
 		result += number
