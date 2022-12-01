@@ -62,7 +62,7 @@ func TestReadIntSlicesFromLines(t *testing.T) {
 	}
 
 	// Act
-	actual := readIntSlicesFromLines(content)
+	actual := readIntSlice2D(content, "\n", ",")
 
 	// Assert
 	for i := 0; i < len(expected); i++ {

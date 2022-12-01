@@ -6,15 +6,15 @@ import (
 	"strings"
 )
 
-func ReadIntFromLine(filename string) (result []int) {
+func ReadIntSlice1D(filename, sep string) (result []int) {
 	content, err := os.ReadFile(filename)
 	ActOn(err)
 
-	for _, line := range strings.Split(string(content), "\n") {
+	for _, line := range strings.Split(string(content), sep) {
 		number, err := strconv.Atoi(line)
 
 		if err != nil {
-			continue
+			ActOn(err)
 		}
 
 		result = append(result, number)
@@ -90,11 +90,11 @@ func readRuneSlicesFromLines(content string) (result [][]rune) {
 	return
 }
 
-func ReadIntSlicesFromLines(filename string) (result [][]int) {
+func ReadIntSlice2D(filename, sep1, sep2 string) (result [][]int) {
 	content, err := os.ReadFile(filename)
 	ActOn(err)
 
-	result = readIntSlicesFromLines(string(content))
+	result = readIntSlice2D(string(content), sep1, sep2)
 
 	if result == nil || len(result) == 0 {
 		return nil
@@ -103,10 +103,10 @@ func ReadIntSlicesFromLines(filename string) (result [][]int) {
 	return
 }
 
-func readIntSlicesFromLines(content string) (result [][]int) {
-	for _, line := range strings.Split(content, "\n") {
+func readIntSlice2D(content, sep1, sep2 string) (result [][]int) {
+	for _, line := range strings.Split(content, sep1) {
 		line = strings.TrimSpace(line)
-		chunks := strings.Split(line, ",")
+		chunks := strings.Split(line, sep2)
 		series := make([]int, len(chunks))
 		for i, chunk := range chunks {
 			number, err := strconv.Atoi(chunk)

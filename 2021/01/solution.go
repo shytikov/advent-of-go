@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	input := shared.ReadIntFromLine("./input.txt")
+	input := shared.ReadIntSlice1D("./input.txt", "\n")
 
 	if input != nil {
 		resultA := make(chan int)
