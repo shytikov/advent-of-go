@@ -35,7 +35,10 @@ func solvePuzzleA(input [][]rune, result chan int) {
 		go func(draws []rune) {
 			defer wg.Done()
 
-			total <- local.Score(draws[0], draws[1])
+			theirs := int(draws[0]) - 64
+			ours := int(draws[1]) - 87
+
+			total <- local.Score(theirs, ours)
 		}(entry)
 	}
 
