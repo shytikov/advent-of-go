@@ -2,6 +2,7 @@ package shared
 
 import (
 	"os"
+	"reflect"
 	"strconv"
 	"strings"
 )
@@ -90,7 +91,7 @@ func readRuneSlicesFromLines(content string) (result [][]rune) {
 	return
 }
 
-func ReadSlice2D[T int](filename, sep1, sep2 string) (result [][]T) {
+func ReadSlice2D[T int | rune](filename, sep1, sep2 string) (result [][]T) {
 	content, err := os.ReadFile(filename)
 	ActOn(err)
 
@@ -103,19 +104,36 @@ func ReadSlice2D[T int](filename, sep1, sep2 string) (result [][]T) {
 	return
 }
 
-func readSlice2D[T int](content, sep1, sep2 string) (result [][]T) {
+func readSlice2D[T int | rune](content, sep1, sep2 string) (result [][]T) {
 	for _, line := range strings.Split(content, sep1) {
 		line = strings.TrimSpace(line)
-		chunks := strings.Split(line, sep2)
-		series := make([]T, len(chunks))
-		for i, chunk := range chunks {
-			number, err := strconv.Atoi(chunk)
-			ActOn(err)
+		if len(line) > 0 {
+			chunks := strings.Split(line, sep2)
+			series := make([]T, len(chunks))
 
-			series[i] = T(number)
+			switch reflect.TypeOf((*T)(nil)).Elem() {
+			case reflect.TypeOf((*int)(nil)).Elem():
+				for i, chunk := range chunks {
+					number, err := strconv.Atoi(chunk)
+					ActOn(err)
+
+					series[i] = T(number)
+				}
+			case reflect.TypeOf((*rune)(nil)).Elem():
+				for i, chunk := range chunks {
+					symbol := []rune(chunk)
+
+					series[i] = T(symbol[0])
+				}
+			}
+
+			result = append(result, series)
 		}
-		result = append(result, series)
 	}
 
 	return
+}
+
+func identity[T any](v T) T {
+	return v
 }
