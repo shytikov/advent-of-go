@@ -33,7 +33,7 @@ func TestScore(t *testing.T) {
 	// Act
 	// Assert
 	for i := 0; i < len(input); i++ {
-		actual := Score(input[i][0], input[i][1])
+		actual := Score(int(input[i][0])-64, int(input[i][1])-87)
 
 		if actual != expected[i] {
 			t.Errorf("Score of (%s, %s) was incorrect, got: %d, want: %d.",
