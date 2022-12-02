@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	input := shared.ReadIntSlice2D("./input.txt", "\n\n", "\n")
+	input := shared.ReadSlice2D[int]("./input.txt", "\n\n", "\n")
 
 	if input != nil {
 		resultA := make(chan int)

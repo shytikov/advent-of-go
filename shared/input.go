@@ -90,11 +90,11 @@ func readRuneSlicesFromLines(content string) (result [][]rune) {
 	return
 }
 
-func ReadIntSlice2D(filename, sep1, sep2 string) (result [][]int) {
+func ReadSlice2D[T int](filename, sep1, sep2 string) (result [][]T) {
 	content, err := os.ReadFile(filename)
 	ActOn(err)
 
-	result = readIntSlice2D(string(content), sep1, sep2)
+	result = readSlice2D[T](string(content), sep1, sep2)
 
 	if result == nil || len(result) == 0 {
 		return nil
@@ -103,16 +103,16 @@ func ReadIntSlice2D(filename, sep1, sep2 string) (result [][]int) {
 	return
 }
 
-func readIntSlice2D(content, sep1, sep2 string) (result [][]int) {
+func readSlice2D[T int](content, sep1, sep2 string) (result [][]T) {
 	for _, line := range strings.Split(content, sep1) {
 		line = strings.TrimSpace(line)
 		chunks := strings.Split(line, sep2)
-		series := make([]int, len(chunks))
+		series := make([]T, len(chunks))
 		for i, chunk := range chunks {
 			number, err := strconv.Atoi(chunk)
 			ActOn(err)
 
-			series[i] = number
+			series[i] = T(number)
 		}
 		result = append(result, series)
 	}
