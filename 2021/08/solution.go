@@ -56,7 +56,7 @@ func solvePart1(input local.Data, result chan int) {
 	wg.Wait()
 	close(total)
 
-	result <- shared.GetSumFromChannel(total)
+	result <- shared.SumOf(total)
 }
 
 func solvePart2(input local.Data, result chan int) {
@@ -124,5 +124,5 @@ func solvePart2(input local.Data, result chan int) {
 	wg.Wait()
 	close(total)
 
-	result <- shared.GetSumFromChannel(total)
+	result <- shared.SumOf(total)
 }

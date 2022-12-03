@@ -73,13 +73,13 @@ func parseData(content string) (result Data) {
 	go func() {
 		defer wg.Done()
 
-		result.Max.X = shared.GetMaxFromChannel(x)
+		result.Max.X = shared.MaxOf(x)
 	}()
 
 	go func() {
 		defer wg.Done()
 
-		result.Max.Y = shared.GetMaxFromChannel(y)
+		result.Max.Y = shared.MaxOf(y)
 	}()
 
 	wg.Wait()

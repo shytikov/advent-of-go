@@ -6,9 +6,9 @@ func Score(theirs, ours int) (result int) {
 	j := ours - 1
 
 	// Matrix contains all possible outcomes:
-	// * 0 – we loose
+	// * 0 – we lost
 	// * 3 – draw
-	// * 6 – we win
+	// * 6 – we won
 	// Indexes are encoded values:
 	// * 0 – Rock (measures as 1)
 	// * 1 – Paper (measures as 2)

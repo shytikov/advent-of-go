@@ -7,9 +7,9 @@ import (
 func TestScore(t *testing.T) {
 	// Arrange
 	input := [][]rune{
-		{'B', 'X'},
-		{'C', 'Y'},
-		{'A', 'Z'},
+		{'B', 'X'}, // Lose
+		{'C', 'Y'}, // Lose
+		{'A', 'Z'}, // Lose
 		{'A', 'X'}, // Draw
 		{'B', 'Y'}, // Draw
 		{'C', 'Z'}, // Draw

@@ -4,59 +4,6 @@ import (
 	"math"
 )
 
-// SumOf returns sum of all numbers in the slice
-func SumOf(slice []int) (result int) {
-	for _, value := range slice {
-		result += value
-	}
-
-	return
-}
-
-// ProductOf returns product of multiplication of all numbers in the slice
-func ProductOf(slice []int) (result int) {
-	result = 1
-
-	for _, value := range slice {
-		result *= value
-	}
-
-	return
-}
-
-func MaxOf(slice []int) (result int) {
-	result = math.MinInt
-
-	for _, value := range slice {
-		if result < value {
-			result = value
-		}
-	}
-
-	return
-}
-
-func MinOf(slice []int) (result int) {
-	result = math.MaxInt
-
-	for _, value := range slice {
-		if result > value {
-			result = value
-		}
-	}
-
-	return
-}
-
-func Contains[T comparable](s []T, e T) bool {
-	for _, v := range s {
-		if v == e {
-			return true
-		}
-	}
-	return false
-}
-
 // LooseBinaryToInt converts loose binaries – array of integer `0` and `1` as a single integer
 // For example, 001010011010 will become 666
 func LooseBinaryToInt(slice []int) (result int) {

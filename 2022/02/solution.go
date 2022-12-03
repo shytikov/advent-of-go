@@ -45,7 +45,7 @@ func solvePart1(input [][]rune, result chan int) {
 	wg.Wait()
 	close(total)
 
-	result <- shared.GetSumFromChannel(total)
+	result <- shared.SumOf(total)
 }
 
 func solvePart2(input [][]rune, result chan int) {
@@ -89,5 +89,5 @@ func solvePart2(input [][]rune, result chan int) {
 	wg.Wait()
 	close(total)
 
-	result <- shared.GetSumFromChannel(total)
+	result <- shared.SumOf(total)
 }

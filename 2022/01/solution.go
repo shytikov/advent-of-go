@@ -35,9 +35,7 @@ func solvePart1(input [][]int, result chan int) {
 		calories[i] = value
 	}
 
-	sort.Ints(calories)
-
-	result <- calories[count-1]
+	result <- shared.MaxOf(calories)
 }
 
 func solvePart2(input [][]int, result chan int) {
@@ -54,11 +52,5 @@ func solvePart2(input [][]int, result chan int) {
 
 	sort.Ints(calories)
 
-	sum := 0
-
-	for _, entry := range calories[count-3:] {
-		sum += entry
-	}
-
-	result <- sum
+	result <- shared.SumOf(calories[count-3:])
 }
