@@ -10,20 +10,20 @@ func main() {
 	input := shared.ReadSlice2D[int]("./input.txt", "\n\n", "\n")
 
 	if input != nil {
-		resultA := make(chan int)
-		resultB := make(chan int)
+		answer1 := make(chan int)
+		answer2 := make(chan int)
 
-		go solvePuzzleA(input, resultA)
-		go solvePuzzleB(input, resultB)
+		go solvePart1(input, answer1)
+		go solvePart2(input, answer2)
 
-		fmt.Println(<-resultA)
-		fmt.Println(<-resultB)
+		fmt.Println(<-answer1)
+		fmt.Println(<-answer2)
 	} else {
 		panic("failure when reading input data")
 	}
 }
 
-func solvePuzzleA(input [][]int, result chan int) {
+func solvePart1(input [][]int, result chan int) {
 	count := len(input)
 	calories := make([]int, count)
 
@@ -40,7 +40,7 @@ func solvePuzzleA(input [][]int, result chan int) {
 	result <- calories[count-1]
 }
 
-func solvePuzzleB(input [][]int, result chan int) {
+func solvePart2(input [][]int, result chan int) {
 	count := len(input)
 	calories := make([]int, count)
 

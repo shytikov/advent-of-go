@@ -11,20 +11,20 @@ func main() {
 	input := local.Read("./input.txt")
 
 	if input.Draw != nil && input.Boards != nil {
-		resultA := make(chan int)
-		resultB := make(chan int)
+		answer1 := make(chan int)
+		answer2 := make(chan int)
 
-		go solvePuzzleA(input, resultA)
-		go solvePuzzleB(input, resultB)
+		go solvePart1(input, answer1)
+		go solvePart2(input, answer2)
 
-		fmt.Println(<-resultA)
-		fmt.Println(<-resultB)
+		fmt.Println(<-answer1)
+		fmt.Println(<-answer2)
 	} else {
 		panic("failure when reading input data")
 	}
 }
 
-func solvePuzzleA(input local.Data, result chan int) {
+func solvePart1(input local.Data, result chan int) {
 	boards := append([]local.Board(nil), input.Boards...)
 
 	for _, number := range input.Draw {
@@ -42,7 +42,7 @@ func solvePuzzleA(input local.Data, result chan int) {
 	result <- 0
 }
 
-func solvePuzzleB(input local.Data, result chan int) {
+func solvePart2(input local.Data, result chan int) {
 	boards := append([]local.Board(nil), input.Boards...)
 
 	count := len(boards)

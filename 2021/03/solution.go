@@ -10,20 +10,20 @@ func main() {
 	input := shared.ReadIntGrid("./input.txt")
 
 	if input != nil {
-		resultA := make(chan int)
-		resultB := make(chan int)
+		answer1 := make(chan int)
+		answer2 := make(chan int)
 
-		go solvePuzzleA(input, resultA)
-		go solvePuzzleB(input, resultB)
+		go solvePart1(input, answer1)
+		go solvePart2(input, answer2)
 
-		fmt.Println(<-resultA)
-		fmt.Println(<-resultB)
+		fmt.Println(<-answer1)
+		fmt.Println(<-answer2)
 	} else {
 		panic("failure when reading input data")
 	}
 }
 
-func solvePuzzleA(input [][]int, result chan int) {
+func solvePart1(input [][]int, result chan int) {
 	// Idea is to sum all values per digit position, and when compare with half-length of the input.
 	// If sum exceeds it this means it was more `1` in this sum than `0`, and vice versa
 	threshold := len(input) / 2
@@ -54,7 +54,7 @@ func solvePuzzleA(input [][]int, result chan int) {
 	result <- shared.LooseBinaryToInt(γ) * shared.LooseBinaryToInt(ε)
 }
 
-func solvePuzzleB(input [][]int, result chan int) {
+func solvePart2(input [][]int, result chan int) {
 	gauge := map[string]chan []int{
 		"O2":  make(chan []int),
 		"CO2": make(chan []int),
