@@ -13,7 +13,7 @@ func SumOf(slice []int) (result int) {
 	return
 }
 
-// ProductOf returns product of multipliication of all numbers in the slice
+// ProductOf returns product of multiplication of all numbers in the slice
 func ProductOf(slice []int) (result int) {
 	result = 1
 
@@ -46,6 +46,15 @@ func MinOf(slice []int) (result int) {
 	}
 
 	return
+}
+
+func Contains[T comparable](s []T, e T) bool {
+	for _, v := range s {
+		if v == e {
+			return true
+		}
+	}
+	return false
 }
 
 // LooseBinaryToInt converts loose binaries – array of integer `0` and `1` as a single integer
